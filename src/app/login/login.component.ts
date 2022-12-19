@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { PlaningService } from '../service/planing.service';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
-import { FormBuilder, ReactiveFormsModule, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -12,9 +12,7 @@ import { FormBuilder, ReactiveFormsModule, FormGroup, Validators } from '@angula
 export class LoginComponent implements OnInit {
 
 loginForm!:FormGroup;
-  private username!: string;
-  private password!: string;
-  private roleUser!: string;
+
 
 
   constructor(private planingService: PlaningService,private router: Router,private form: FormBuilder,) { 
@@ -39,15 +37,20 @@ loginForm!:FormGroup;
     console.log(loginParams);
     const user=this.planingService.login(loginParams);
 
-      user.subscribe((user: any) => {
-       sessionStorage.setItem('user', JSON.stringify(user));
+      user.subscribe(user => {
+        
+        if (user) {
+          sessionStorage.setItem('user', JSON.stringify(user));
+       sessionStorage.setItem('role', user.role);
        console.log(sessionStorage.getItem('user'))
         this.router.navigate(['/home']);
         Swal.fire('Connexion réussie', 'Vous êtes à présent connecté', 'success');
+        }else Swal.fire('echec Connexion ', 'password ou password incorrect', 'error');
+       
       }, (err: any) => {
           console.error(err);
           this.router.navigate(['/login']);
-        Swal.fire('echec Connexion ', 'password ou password incorrect', 'error');
+        Swal.fire('echec Connexion ', 'erreur lors de l\' execution de la requete', 'error');
       });
     
     
