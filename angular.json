@@ -27,6 +27,8 @@
               "src/assets"
             ],
             "styles": [
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "node_modules/bootstrap-icons/font/bootstrap-icons.css",
               "src/styles.css"
             ],
             "scripts": []
@@ -66,6 +68,10 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "planing-lib:build",
+            "proxyConfig": "src/proxy.conf.json"
+        },
           "configurations": {
             "production": {
               "browserTarget": "planing-lib:build:production"
