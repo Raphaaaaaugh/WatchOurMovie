@@ -13,6 +13,7 @@ import { CalendrierComponent } from './calendrier/calendrier.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { FlatpickrModule } from 'angularx-flatpickr';
+import { RegisterComponent } from './register/register.component';
 
 
 class CustomDateFormatter extends CalendarNativeDateFormatter {
@@ -37,7 +38,8 @@ class CustomDateFormatter extends CalendarNativeDateFormatter {
     AppComponent,
     LoginComponent,
     HomeComponent,
-    CalendrierComponent
+    CalendrierComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,

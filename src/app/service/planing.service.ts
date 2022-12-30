@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders,HttpClientModule } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Manager, Student, Teacher } from 'src/app/type/types';
+import { Manager, Speciality, Student, Teacher } from 'src/app/type/types';
 
 @Injectable({
   providedIn: 'root'
@@ -40,7 +40,7 @@ if (login.roleUser==="student") {
   
   public addManager(manager: Manager): Observable<Manager>
   {
-    return this.httpClient.post<Manager>(`${this.urlApi}/manager/all`,manager);
+    return this.httpClient.post<Manager>(`${this.urlApi}/manager/add`,manager);
   }
   
   public updateManager(manager: Manager): Observable<Manager>
@@ -60,7 +60,7 @@ if (login.roleUser==="student") {
 
   public addStudent(student: Student): Observable<Student>
   {
-    return this.httpClient.post<Student>(`${this.urlApi}/student/all`,student);
+    return this.httpClient.post<Student>(`${this.urlApi}/student/add`,student);
   }
 
   public updateStudent(student: Student): Observable<Student>
@@ -80,7 +80,7 @@ if (login.roleUser==="student") {
   
   public addTeacher(teacher: Teacher): Observable<Teacher>
   {
-    return this.httpClient.post<Teacher>(`${this.urlApi}/teacher/all`,teacher);
+    return this.httpClient.post<Teacher>(`${this.urlApi}/teacher/add`,teacher);
   }
   
   public updateTeacher(teacher: Teacher): Observable<Teacher>
@@ -91,5 +91,10 @@ if (login.roleUser==="student") {
   public deleteTeacher(teacherId: number): Observable<void>
   {
     return  this.httpClient.delete<void>(`${this.urlApi}/teacher/delete/${teacherId}`);
+  }
+
+  public getSpecialities(): Observable<Speciality[]>
+  {
+    return  this.httpClient.get<Speciality[]>(`${this.urlApi}/speciality/all`);
   }
 }

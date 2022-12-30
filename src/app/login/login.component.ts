@@ -56,6 +56,8 @@ loginForm!:FormGroup;
     
   }
 
-  
+  register(){
+    this.router.navigate(['/register']);
+  }
 
 }
