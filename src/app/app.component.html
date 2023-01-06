@@ -118,7 +118,7 @@
       <!-- Sidebar Header-->
       <div class="sidebar-header d-flex align-items-center py-4 px-3"><img class="avatar shadow-0 img-fluid rounded-circle" src="assets/img/silatcha.jpeg" alt="...">
         <div class="ms-3 title">
-          <h1 class="h4 mb-2">SILATCHA Russelle</h1>
+          <h1 class="h4 mb-2" *ngIf="user">{{userObject.firstName}}  {{userObject.lastName}}</h1>
           <p class="text-sm text-gray-500 fw-light mb-0 lh-1" >  {{role}}</p>
         </div>
       </div>
@@ -143,11 +143,10 @@
         <li class="sidebar-item"><a class="sidebar-link" href="#exampledropdownDropdown" data-bs-toggle="collapse"> 
             <svg class="svg-icon svg-icon-sm svg-icon-heavy me-xl-2">
               <use xlink:href="#browser-window-1"> </use>
-            </svg>Example dropdown </a>
+            </svg>Disponibilité </a>
           <ul class="collapse list-unstyled " id="exampledropdownDropdown">
-            <li><a class="sidebar-link" href="#">Page</a></li>
-            <li><a class="sidebar-link" href="#">Page</a></li>
-            <li><a class="sidebar-link" href="#">Page</a></li>
+            <li><a class="sidebar-link" routerLink="disponibility">Ajouter disponibilité</a></li>
+            <li><a class="sidebar-link" routerLink="listDisponibility">Lister disponibilité</a></li>
           </ul>
         </li>
         <li class="sidebar-item"><a class="sidebar-link" routerLink="/login"> 

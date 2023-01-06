@@ -1,11 +1,19 @@
 import { Component, NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CalendrierComponent } from './calendrier/calendrier.component';
+import { DisponibilityComponent } from './disponibility/disponibility.component';
 import { HomeComponent } from './home/home.component';
+import { ListDispoComponent } from './list-dispo/list-dispo.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 
 const routes: Routes = [
+  {
+    path:'disponibility', component :DisponibilityComponent
+  },
+  {
+    path:'listDisponibility', component :ListDispoComponent
+  },
   {
     path:'login', component :LoginComponent
   },

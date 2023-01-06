@@ -25,6 +25,10 @@ import {
   CalendarView,
 } from 'angular-calendar';
 import { EventColor } from 'calendar-utils';
+import { PlaningService } from '../service/planing.service';
+import { Router } from '@angular/router';
+import { Event } from '../type/types';
+import Swal from 'sweetalert2';
 
 
 
@@ -61,6 +65,11 @@ const colors: Record<string, EventColor> = {
 })
 export class CalendrierComponent implements OnInit {
 
+event!:Event[]
+events: CalendarEvent[]=[]
+role=sessionStorage.getItem("role");
+userObject!:any;
+
 
   @ViewChild('modalContent', { static: true }) 
   modalContent!: TemplateRef<any>;
@@ -96,51 +105,10 @@ export class CalendrierComponent implements OnInit {
 
   refresh = new Subject<void>();
 
-  events: CalendarEvent[] = [
-    {
-      start: subDays(startOfDay(new Date()), 1),
-      end: addDays(new Date(), 1),
-      title: 'A 3 day event',
-      color: { ...colors['red'] },
-      actions: this.actions,
-      allDay: true,
-      resizable: {
-        beforeStart: true,
-        afterEnd: true,
-      },
-      draggable: true,
-    },
-    {
-      start: startOfDay(new Date()),
-      title: 'An event with no end date',
-      color: { ...colors['yellow'] },
-      actions: this.actions,
-    },
-    {
-      start: subDays(endOfMonth(new Date()), 3),
-      end: addDays(endOfMonth(new Date()), 3),
-      title: 'A long event that spans 2 months',
-      color: { ...colors['blue'] },
-      allDay: true,
-    },
-    {
-      start: addHours(startOfDay(new Date()), 2),
-      end: addHours(new Date(), 2),
-      title: 'A draggable and resizable event',
-      color: { ...colors['yellow'] },
-      actions: this.actions,
-      resizable: {
-        beforeStart: true,
-        afterEnd: true,
-      },
-      draggable: true,
-    },
-  ];
-
   activeDayIsOpen: boolean = true;
 
 
-  constructor(private modal: NgbModal) { }
+  constructor(private modal: NgbModal,private planingService: PlaningService,private router: Router) { }
 
 
 
@@ -186,12 +154,13 @@ export class CalendrierComponent implements OnInit {
   }
 
   addEvent(): void {
-    this.events = [
+    this.router.navigate(['/listDisponibility'])
+    /*this.events = [
       ...this.events,
       {
         title: 'New event',
-        start: startOfDay(new Date("2022-12-20")),
-        end: endOfDay(new Date("2022-12-20")),
+        start: new Date("2023-01-03T13:45:30"),
+        end: new Date("2023-01-03T14:45:30"),
         color: colors['red'],
         draggable: true,
         resizable: {
@@ -199,7 +168,7 @@ export class CalendrierComponent implements OnInit {
           afterEnd: true,
         },
       },
-    ];
+    ];*/
   }
 
   deleteEvent(eventToDelete: CalendarEvent) {
@@ -219,6 +188,95 @@ export class CalendrierComponent implements OnInit {
 
 
   ngOnInit(): void {
+
+    const  user=sessionStorage.getItem('user');
+    if (user  ) {
+      this.userObject= JSON.parse(user)
+
+      if (this.role==='student') {
+
+        this.planingService.getEventBySpeciality(this.userObject.speciality.specialityId).subscribe(event=>{
+          event.forEach(e=>{
+            console.log(new Date(e.day+" "+e.timeD))
+            this.events = [
+              ...this.events,
+              {
+                start: new Date(e.day+" "+e.timeD),
+                end: new Date(e.day+" "+e.timeF),
+                title: e.title,
+                color: colors['red'],
+                actions: this.actions,
+                draggable: true,
+                resizable: {
+                  beforeStart: true,
+                  afterEnd: true,
+                },
+              },
+            ];
+          })
+              },err=>console.log(err))
+
+
+      }else if((this.role==='teacher')){
+
+        this.planingService.getEventByTeacher(this.userObject.teacherId).subscribe(event=>{
+          event.forEach(e=>{
+            console.log(new Date(e.day+" "+e.timeD))
+            this.events = [
+              ...this.events,
+              {
+                start: new Date(e.day+" "+e.timeD),
+                end: new Date(e.day+" "+e.timeF),
+                title: e.title,
+                color: colors['red'],
+                actions: this.actions,
+                draggable: true,
+                resizable: {
+                  beforeStart: true,
+                  afterEnd: true,
+                },
+              },
+            ];
+          })
+              },err=>console.log(err))
+
+      }else{
+        this.planingService.getEvents().subscribe(event=>{
+     
+          this.event=event
+    
+    event.forEach(e=>{
+      console.log(new Date(e.day+" "+e.timeD))
+      this.events = [
+        ...this.events,
+        {
+          start: new Date(e.day+" "+e.timeD),
+          end: new Date(e.day+" "+e.timeF),
+          title: e.title,
+          color: colors['red'],
+          actions: this.actions,
+          draggable: true,
+          resizable: {
+            beforeStart: true,
+            afterEnd: true,
+          },
+        },
+      ];
+    })
+        },err=>console.log(err))
+      }
+
+     
+      
+
+    }
+
+
+console.log(this.events)
+
+
+
+
   }
 
 

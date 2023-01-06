@@ -1,0 +1,90 @@
+<div class="login-page d-flex align-items-center bg-gray-100">
+    <div class="container mb-3">
+      <div class="row">
+        <div class="col-md-6 mx-auto">
+          <div class="card">
+            <div class="card-body p-5">
+              <header class="text-center mb-5">
+                <h1 class="text-xxl text-gray-400 text-uppercase"> Disponibility <strong class="text-primary">To planing</strong></h1>
+                <p class="text-gray-500 fw-light"></p>
+              </header>
+              <form class="registe-form" [formGroup]="dispoForm">
+                <div class="row">
+                  <div class="col-lg-8 mx-auto">
+                    
+                    <div class="input-material-group mb-3">
+                        <input class="input-material" type="date" formControlName="day" required data-validate-field="date">
+                        <label class="label-material" for="date">jour </label>
+                      </div>
+                  <h4>Heure debut </h4>
+                    <div class="input-material-group mb-1">
+                      <input class="input-material" type="text" formControlName="heureD" required data-validate-field="heure">
+                      <label class="label-material" for="heure">heure</label>
+                    </div>
+                    <div class="input-material-group mb-1">
+                        <input class="input-material" type="text" formControlName="minuteD" required data-validate-field="heure">
+                        <label class="label-material" for="heure">minute</label>
+                      </div>
+                      <h4>Heure fin </h4>
+                      <div class="input-material-group mb-1">
+                        <input class="input-material" type="text" formControlName="heureF" required data-validate-field="heure">
+                        <label class="label-material" for="heure">heure</label>
+                      </div>
+                      <div class="input-material-group mb-1">
+                          <input class="input-material" type="text" formControlName="minuteF" required data-validate-field="heure">
+                          <label class="label-material" for="heure">minute</label>
+                        </div>
+                  </div>
+                  <div class="col-12 text-center">
+                    <button class="btn btn-primary mb-3"  (click)="onSubmit()">Register</button><br><span class="text-xs text-gray-500">Already have an account?  </span><a class="text-xs text-paleBlue ms-1" href="login.html">Login</a>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="text-center position-absolute bottom-0 start-0 w-100 z-index-20">
+      <p class="text-gray-500">Design by <a class="external" href="https://bootstrapious.com/p/admin-template">Bootstrapious</a>
+        <!-- Please do not remove the backlink to us unless you support further theme's development at https://bootstrapious.com/donate. It is part of the license conditions. Thank you for understanding :)                      -->
+      </p>
+    </div>
+  </div>
+  <!-- JavaScript files-->
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="vendor/chart.js/Chart.min.js"></script>
+  <script src="vendor/just-validate/js/just-validate.min.js"></script>
+  <script src="vendor/choices.js/public/assets/scripts/choices.min.js"></script>
+  <script src="vendor/overlayscrollbars/js/OverlayScrollbars.min.js"></script>
+  <!-- Main File-->
+  <script src="js/front.js"></script>
+  <script>
+    // ------------------------------------------------------- //
+    //   Inject SVG Sprite - 
+    //   see more here 
+    //   https://css-tricks.com/ajaxing-svg-sprite/
+    // ------------------------------------------------------ //
+    function injectSvgSprite(path) {
+    
+        var ajax = new XMLHttpRequest();
+        ajax.open("GET", path, true);
+        ajax.send();
+        ajax.onload = function(e) {
+        var div = document.createElement("div");
+        div.className = 'd-none';
+        div.innerHTML = ajax.responseText;
+        document.body.insertBefore(div, document.body.childNodes[0]);
+        }
+    }
+    // this is set to BootstrapTemple website as you cannot 
+    // inject local SVG sprite (using only 'icons/orion-svg-sprite.svg' path)
+    // while using file:// protocol
+    // pls don't forget to change to your domain :)
+    injectSvgSprite('https://bootstraptemple.com/files/icons/orion-svg-sprite.svg'); 
+    
+   
+    
+  </script>
+  <!-- FontAwesome CSS - loading as last, so it doesn't block rendering-->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">

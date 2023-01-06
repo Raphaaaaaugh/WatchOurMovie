@@ -1,3 +1,5 @@
+import { Time } from "@angular/common";
+
 export interface Manager{
     managerId:number
     firstName: string,
@@ -38,4 +40,42 @@ export interface Teacher{
 export interface Speciality{
     specialityId:number;
     name:string;
+}
+
+export interface Room{
+    roomId:number;
+    name:string;
+    capacity:number;
+    state:boolean;
+}
+
+export interface Matter{
+    matterId:number;
+    name:string;
+    coef:number;
+    teachers:Teacher[]
+}
+
+export interface Disponibility{
+    dispoId:number;
+    timeD:string;
+    timeF:string;
+    day:string;
+    teacher:{
+        teacherId:number;
+    };
+}
+
+export interface Event{
+    eventId:number;
+    timeD:string;
+    timeF:string;
+    day:string;
+    title:string;
+    speciality:{
+        specialityId:number;
+    };
+    teacher:{
+        teacherId:number;
+    };
 }

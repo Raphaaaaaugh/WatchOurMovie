@@ -14,6 +14,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { FlatpickrModule } from 'angularx-flatpickr';
 import { RegisterComponent } from './register/register.component';
+import { DisponibilityComponent } from './disponibility/disponibility.component';
+import { ListDispoComponent } from './list-dispo/list-dispo.component';
 
 
 class CustomDateFormatter extends CalendarNativeDateFormatter {
@@ -39,7 +41,9 @@ class CustomDateFormatter extends CalendarNativeDateFormatter {
     LoginComponent,
     HomeComponent,
     CalendrierComponent,
-    RegisterComponent
+    RegisterComponent,
+    DisponibilityComponent,
+    ListDispoComponent
   ],
   imports: [
     BrowserModule,

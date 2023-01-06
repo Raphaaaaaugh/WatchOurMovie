@@ -43,8 +43,11 @@ loginForm!:FormGroup;
           sessionStorage.setItem('user', JSON.stringify(user));
        sessionStorage.setItem('role', user.role);
        console.log(sessionStorage.getItem('user'))
-        this.router.navigate(['/home']);
+        this.router.navigate(['/home']).then(()=>{
+          window.location.reload();
+        });
         Swal.fire('Connexion réussie', 'Vous êtes à présent connecté', 'success');
+      
         }else Swal.fire('echec Connexion ', 'password ou password incorrect', 'error');
        
       }, (err: any) => {

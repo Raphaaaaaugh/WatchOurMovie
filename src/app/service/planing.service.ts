@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders,HttpClientModule } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Manager, Speciality, Student, Teacher } from 'src/app/type/types';
+import { Disponibility, Manager, Matter, Room, Speciality, Student, Teacher,Event } from 'src/app/type/types';
 
 @Injectable({
   providedIn: 'root'
@@ -78,9 +78,9 @@ if (login.roleUser==="student") {
     return this.httpClient.get<Teacher[]>(`${this.urlApi}/teacher/all`);
   }
   
-  public addTeacher(teacher: Teacher): Observable<Teacher>
+  public addTeacher(teacher: Teacher,matterId:number): Observable<Teacher>
   {
-    return this.httpClient.post<Teacher>(`${this.urlApi}/teacher/add`,teacher);
+    return this.httpClient.post<Teacher>(`${this.urlApi}/teacher/add/${matterId}`,teacher);
   }
   
   public updateTeacher(teacher: Teacher): Observable<Teacher>
@@ -96,5 +96,79 @@ if (login.roleUser==="student") {
   public getSpecialities(): Observable<Speciality[]>
   {
     return  this.httpClient.get<Speciality[]>(`${this.urlApi}/speciality/all`);
+  }
+
+  public addDisponibility(disponibility:Disponibility): Observable<Disponibility>
+  {
+    return  this.httpClient.post<Disponibility>(`${this.urlApi}/disponibility/add`,disponibility);
+  }
+
+  public getDisponibility(teacherId:number): Observable<Disponibility[]>
+  {
+    return  this.httpClient.get<Disponibility[]>(`${this.urlApi}/disponibility/all/${teacherId}`);
+  }
+
+  public getMatters(): Observable<Matter[]>
+  {
+    return  this.httpClient.get<Matter[]>(`${this.urlApi}/matter/all`);
+  }
+
+  public getMatter(matterId:number): Observable<Matter>
+  {
+    return  this.httpClient.get<Matter>(`${this.urlApi}/matter/one/${matterId}`);
+  }
+
+  public addMatter(matter:Matter): Observable<Matter>
+  {
+    return  this.httpClient.post<Matter>(`${this.urlApi}/matter/add`,matter);
+  }
+
+  public getRooms(): Observable<Room[]>
+  {
+    return  this.httpClient.get<Room[]>(`${this.urlApi}/room/all`);
+  }
+
+  public getRoomsByCapacity(capacity:number): Observable<Room[]>
+  {
+    return  this.httpClient.get<Room[]>(`${this.urlApi}/room/capacity/${capacity}`);
+  }
+
+  public getRoomsByName(name:string): Observable<Room>
+  {
+    return  this.httpClient.get<Room>(`${this.urlApi}/room/name/${name}`);
+  }
+
+  public addRoom(room:Room): Observable<Room>
+  {
+    return  this.httpClient.post<Room>(`${this.urlApi}/room/add`,room);
+  }
+
+  public updateRoom(room:Room): Observable<Room>
+  {
+    return  this.httpClient.put<Room>(`${this.urlApi}/room/update`,room);
+  }
+
+  public getEvents(): Observable<Event[]>
+  {
+    return  this.httpClient.get<Event[]>(`${this.urlApi}/event/all`);
+  }
+
+  public getEventsByDay(day:string): Observable<Event[]>
+  {
+    return  this.httpClient.get<Event[]>(`${this.urlApi}/event/day/${day}`);
+  }
+
+  public addEvent(event:Event): Observable<Event>
+  {
+    return  this.httpClient.post<Event>(`${this.urlApi}/event/add`,event);
+  }
+
+  public getEventBySpeciality(specialityId:number): Observable<Event[]>
+  {
+    return  this.httpClient.get<Event[]>(`${this.urlApi}/event/speciality/${specialityId}`);
+  }
+  public getEventByTeacher(teacherId:number): Observable<Event[]>
+  {
+    return  this.httpClient.get<Event[]>(`${this.urlApi}/event/teacher/${teacherId}`);
   }
 }

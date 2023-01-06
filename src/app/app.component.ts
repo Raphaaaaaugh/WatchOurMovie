@@ -11,7 +11,13 @@ export class AppComponent {
 
   role=sessionStorage.getItem("role");
   
+    user=sessionStorage.getItem('user');
+    userObject=this.user ? JSON.parse(this.user) :""
+    
+
+  
   logout(){
     sessionStorage.clear();
+    window.location.reload();
   }
 }
