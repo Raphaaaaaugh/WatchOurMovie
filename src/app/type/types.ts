@@ -53,7 +53,8 @@ export interface Matter{
     matterId:number;
     name:string;
     coef:number;
-    teachers:Teacher[]
+    teachers:Teacher[];
+    speciality:Speciality[]
 }
 
 export interface Disponibility{
@@ -64,6 +65,7 @@ export interface Disponibility{
     teacher:{
         teacherId:number;
     };
+    state:boolean;
 }
 
 export interface Event{
@@ -78,4 +80,24 @@ export interface Event{
     teacher:{
         teacherId:number;
     };
+}
+
+
+
+export interface Exam{
+    id:number;
+    speciality:Speciality;
+        matter:Matter;
+        teacher:Teacher;
+        room:Room;
+        timeslot:Disponibility;
+}
+
+
+export interface TimeTable{
+    disponibilities:Disponibility[];
+    roomList:Room[];
+    teachersList:Teacher[];
+    exam:Exam[];
+   
 }

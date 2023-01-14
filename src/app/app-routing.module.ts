@@ -5,11 +5,19 @@ import { DisponibilityComponent } from './disponibility/disponibility.component'
 import { HomeComponent } from './home/home.component';
 import { ListDispoComponent } from './list-dispo/list-dispo.component';
 import { LoginComponent } from './login/login.component';
+import { MatterComponent } from './matter/matter.component';
 import { RegisterComponent } from './register/register.component';
+import { SpecialityComponent } from './speciality/speciality.component';
 
 const routes: Routes = [
   {
     path:'disponibility', component :DisponibilityComponent
+  },
+  {
+    path:'speciality', component :SpecialityComponent
+  },
+  {
+    path:'matter', component :MatterComponent
   },
   {
     path:'listDisponibility', component :ListDispoComponent

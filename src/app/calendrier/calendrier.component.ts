@@ -63,7 +63,13 @@ const colors: Record<string, EventColor> = {
   templateUrl: './calendrier.component.html',
   styleUrls: ['./calendrier.component.css']
 })
+
+
+
+
 export class CalendrierComponent implements OnInit {
+
+
 
 event!:Event[]
 events: CalendarEvent[]=[]
@@ -269,10 +275,11 @@ userObject!:any;
      
       
 
-    }
+    }else {this.router.navigate(['/login']);
+    Swal.fire('erreur', 'veuillez vous connecter', 'error');
+   }
 
 
-console.log(this.events)
 
 
 

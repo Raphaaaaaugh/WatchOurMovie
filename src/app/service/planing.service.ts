@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders,HttpClientModule } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Disponibility, Manager, Matter, Room, Speciality, Student, Teacher,Event } from 'src/app/type/types';
+import { Disponibility, Manager, Matter, Room, Speciality, Student, Teacher,Event, TimeTable } from 'src/app/type/types';
 
 @Injectable({
   providedIn: 'root'
@@ -103,9 +103,28 @@ if (login.roleUser==="student") {
     return  this.httpClient.post<Disponibility>(`${this.urlApi}/disponibility/add`,disponibility);
   }
 
-  public getDisponibility(teacherId:number): Observable<Disponibility[]>
+  public updateDisponibility(disponibility:Disponibility): Observable<Disponibility>
   {
-    return  this.httpClient.get<Disponibility[]>(`${this.urlApi}/disponibility/all/${teacherId}`);
+    return  this.httpClient.put<Disponibility>(`${this.urlApi}/disponibility/update`,disponibility);
+  }
+
+  public getDisponibility(teacherId:number,state:boolean): Observable<Disponibility[]>
+  {
+    return  this.httpClient.get<Disponibility[]>(`${this.urlApi}/disponibility/all/${teacherId}/${state}`);
+  }
+  public getDisponibilityByDay(day:string): Observable<Disponibility[]>
+  {
+    return  this.httpClient.get<Disponibility[]>(`${this.urlApi}/disponibility/day/${day}`);
+  }
+
+  public getDisponibilityByDayTime(teacherId:number,day:string,timeD:string,timeF:string): Observable<Disponibility[]>
+  {
+    return  this.httpClient.get<Disponibility[]>(`${this.urlApi}/disponibility/DayTime/${teacherId}/${day}/${timeD}/${timeF}`);
+  }
+
+  public getDisponibilities(): Observable<Disponibility[]>
+  {
+    return  this.httpClient.get<Disponibility[]>(`${this.urlApi}/disponibility/all`);
   }
 
   public getMatters(): Observable<Matter[]>
@@ -170,5 +189,10 @@ if (login.roleUser==="student") {
   public getEventByTeacher(teacherId:number): Observable<Event[]>
   {
     return  this.httpClient.get<Event[]>(`${this.urlApi}/event/teacher/${teacherId}`);
+  }
+
+  public getTimeTable(timeTable:TimeTable ): Observable<TimeTable>
+  {
+    return  this.httpClient.post<TimeTable>(`${this.urlApi}/timeTable/solve`,timeTable);
   }
 }

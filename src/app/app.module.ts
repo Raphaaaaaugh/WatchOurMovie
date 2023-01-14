@@ -16,6 +16,8 @@ import { FlatpickrModule } from 'angularx-flatpickr';
 import { RegisterComponent } from './register/register.component';
 import { DisponibilityComponent } from './disponibility/disponibility.component';
 import { ListDispoComponent } from './list-dispo/list-dispo.component';
+import { SpecialityComponent } from './speciality/speciality.component';
+import { MatterComponent } from './matter/matter.component';
 
 
 class CustomDateFormatter extends CalendarNativeDateFormatter {
@@ -43,7 +45,9 @@ class CustomDateFormatter extends CalendarNativeDateFormatter {
     CalendrierComponent,
     RegisterComponent,
     DisponibilityComponent,
-    ListDispoComponent
+    ListDispoComponent,
+    SpecialityComponent,
+    MatterComponent
   ],
   imports: [
     BrowserModule,

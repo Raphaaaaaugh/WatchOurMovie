@@ -45,6 +45,7 @@ console.log(this.dispoForm.valid);
 console.log(this.dispoForm.value.heureD,this.dispoForm.value.heureF);
 
 
+
 if (this.dispoForm.valid ) {
 
   const date=this.dispoForm.value.day;
@@ -71,24 +72,58 @@ if (this.dispoForm.valid ) {
 
   addDispo(){
 
+    const hour=Number(this.dispoForm.value.heureF)*60+Number(this.dispoForm.value.minuteF)-(Number(this.dispoForm.value.heureD)*60+Number(this.dispoForm.value.minuteD))
+    const time=this.dispoForm.value.heureF+":"+this.dispoForm.value.minuteF+":00";
+    let min=Number(this.dispoForm.value.minuteD);
+    let m=min;
+    let hD=Number(this.dispoForm.value.heureD);
+    const nbrDispo=hour/30;
+    console.log(hour,nbrDispo)
+   let timeD=hD+":"+min+":00";
+    let timeF="";
 
-  const timeD=this.dispoForm.value.heureD+":"+this.dispoForm.value.minuteD+":00";
-  const timeF=this.dispoForm.value.heureF+":"+this.dispoForm.value.minuteF+":00";
- const disponibility:Disponibility={
-    dispoId:0,
-    timeD:timeD,
-    timeF:timeF,
-    day:this.dispoForm.value.day,
-    teacher:{
-        teacherId:this.userObject.teacherId,
+  for (let index = 1; index <= nbrDispo; index++) {
+    min=min+30*index;
+    if(min%60==0){
+      hD++;
+      timeF=hD+":00:00";
+    }else{
+      if (Math.trunc(min/60)>0) {
+        hD++;
+      }
+      timeF=hD+":"+(min/60 - Math.trunc(min/60))*60+":00";
     }
-}
 
 
-const dispoD=this.planingService.addDisponibility(disponibility);
-dispoD.subscribe(dispo=>{console.log(dispo)},err=>{
-  console.log(err);Swal.fire('echec  ', 'erreur enregistrement Disponibilité', 'error');
-})
+    
+
+    const disponibility:Disponibility={
+      dispoId:0,
+      timeD:timeD,
+      timeF:timeF,
+      day:this.dispoForm.value.day,
+      teacher:{
+          teacherId:this.userObject.teacherId,
+      },
+      state:true
+  }
+
+  timeD=timeF;
+  min=min+30*index;
+  
+  
+  const dispoD=this.planingService.addDisponibility(disponibility);
+  dispoD.subscribe(dispo=>{console.log(dispo)},err=>{
+    console.log(err);Swal.fire('echec  ', 'erreur enregistrement Disponibilité', 'error');
+  })
+
+  if (timeF==time) {
+    break;
+  }
+
+  
+  }
+
 
     
   }
