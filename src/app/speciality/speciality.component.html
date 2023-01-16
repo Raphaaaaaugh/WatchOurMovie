@@ -1,1 +1,18 @@
-<p>speciality works!</p>
+
+<div class="cotainer">
+
+<table class="table table-striped tbl">
+    <thead>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Groupe Size</th>
+    </thead>
+	<tbody>
+		<tr *ngFor="let spec of Spes">
+			<th scope="row">{{ spec.specialityId }}</th>
+			<td>{{ spec.name }}</td>
+			<td>{{ spec.groupSize | number }}</td>
+		</tr>
+	</tbody>
+</table>
+</div>
