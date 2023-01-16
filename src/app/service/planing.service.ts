@@ -127,6 +127,11 @@ if (login.roleUser==="student") {
     return  this.httpClient.get<Disponibility[]>(`${this.urlApi}/disponibility/all`);
   }
 
+  public getOneDisponibility(dispoId:number): Observable<Disponibility>
+  {
+    return  this.httpClient.get<Disponibility>(`${this.urlApi}/disponibility/one/${dispoId}`);
+  }
+
   public getMatters(): Observable<Matter[]>
   {
     return  this.httpClient.get<Matter[]>(`${this.urlApi}/matter/all`);
@@ -135,6 +140,11 @@ if (login.roleUser==="student") {
   public getMatter(matterId:number): Observable<Matter>
   {
     return  this.httpClient.get<Matter>(`${this.urlApi}/matter/one/${matterId}`);
+  }
+
+  public getMatterSpecialities(specialityId:number): Observable<Matter[]>
+  {
+    return  this.httpClient.get<Matter[]>(`${this.urlApi}/matter/speciality/${specialityId}`);
   }
 
   public addMatter(matter:Matter): Observable<Matter>

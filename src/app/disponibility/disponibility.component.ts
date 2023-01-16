@@ -19,6 +19,7 @@ export class DisponibilityComponent implements OnInit {
   constructor(private planingService: PlaningService,private router: Router,private form: FormBuilder) { }
 
   ngOnInit(): void {
+   // this.router.navigate([''])
     console.log(sessionStorage.getItem('user'))
     console.log(this.role)
    const  user=sessionStorage.getItem('user');
@@ -72,8 +73,20 @@ if (this.dispoForm.valid ) {
 
   addDispo(){
 
-    const hour=Number(this.dispoForm.value.heureF)*60+Number(this.dispoForm.value.minuteF)-(Number(this.dispoForm.value.heureD)*60+Number(this.dispoForm.value.minuteD))
-    const time=this.dispoForm.value.heureF+":"+this.dispoForm.value.minuteF+":00";
+    let h;
+    let mi;
+   
+   
+   if (Number(this.dispoForm.value.minuteD)>Number(this.dispoForm.value.minuteF)) {
+    h=Number(this.dispoForm.value.heureF)-Number(this.dispoForm.value.heureD)-1;
+    mi=Number(this.dispoForm.value.minuteD)-Number(this.dispoForm.value.minuteF)
+   }else{
+    h=Number(this.dispoForm.value.heureF)-Number(this.dispoForm.value.heureD);
+    mi=Number(this.dispoForm.value.minuteF)-Number(this.dispoForm.value.minuteD)
+   }
+   const hour=h*60+mi;
+   
+   const time=this.dispoForm.value.heureF+":"+this.dispoForm.value.minuteF+":00";
     let min=Number(this.dispoForm.value.minuteD);
     let m=min;
     let hD=Number(this.dispoForm.value.heureD);
@@ -83,12 +96,12 @@ if (this.dispoForm.valid ) {
     let timeF="";
 
   for (let index = 1; index <= nbrDispo; index++) {
-    min=min+30*index;
+    min=min+30;
     if(min%60==0){
       hD++;
       timeF=hD+":00:00";
     }else{
-      if (Math.trunc(min/60)>0) {
+      if (Math.trunc(min/60)>0 && Math.trunc(min/60)%2!==0 && timeD.split(":")[1]==="30") {
         hD++;
       }
       timeF=hD+":"+(min/60 - Math.trunc(min/60))*60+":00";
@@ -107,13 +120,13 @@ if (this.dispoForm.valid ) {
       },
       state:true
   }
-
+console.log(timeD,timeF,index,min)
   timeD=timeF;
-  min=min+30*index;
+
   
   
   const dispoD=this.planingService.addDisponibility(disponibility);
-  dispoD.subscribe(dispo=>{console.log(dispo)},err=>{
+  dispoD.subscribe(dispo=>{},err=>{
     console.log(err);Swal.fire('echec  ', 'erreur enregistrement Disponibilité', 'error');
   })
 
@@ -121,10 +134,32 @@ if (this.dispoForm.valid ) {
     break;
   }
 
-  
+
   }
 
 
+
+/*
+  const timeF=this.dispoForm.value.heureF+":"+this.dispoForm.value.minuteF+":00";
+  const timeD=this.dispoForm.value.heureD+":"+this.dispoForm.value.minuteD+":00";
+
+  const disponibility:Disponibility={
+    dispoId:0,
+    timeD:timeD,
+    timeF:timeF,
+    day:this.dispoForm.value.day,
+    teacher:{
+        teacherId:this.userObject.teacherId,
+    },
+    state:true
+}
+
+
+this.planingService.addDisponibility(disponibility).subscribe(
+  dispo=>{console.log(dispo)},err=>{
+  console.log(err);Swal.fire('echec  ', 'erreur enregistrement Disponibilité', 'error');
+})
+*/
     
   }
 }

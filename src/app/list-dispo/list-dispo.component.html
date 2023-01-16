@@ -16,6 +16,12 @@
                     <div class="input-material-group  col-md-5">
                       <div class="row">
 
+                        <div class="">
+                          <select formControlName="speciality" id="speciality" multiple>
+                            <option *ngFor="let speciality of specialities"  value="{{speciality.specialityId}}" (mwlClick)="getMatters(speciality.groupSize,speciality.specialityId)">{{speciality.name}}</option>
+                         </select>
+                        </div>
+
                         <div class="input-material-group ">
                           <select formControlName="matter" id="matter" >
                             <option [ngValue]="null" >Selectionné matière</option>
@@ -29,22 +35,25 @@
                               <option  *ngFor="let teacher of teachers"  value="{{teacher.teacherId}}" (mwlClick)="teach(teacher.teacherId)">{{teacher.firstName}} {{teacher.lastName}}</option>
                           </select>
                         </div>
-                        <div class="">
-                          <select formControlName="speciality" id="speciality" multiple>
-                            <option *ngFor="let speciality of specialities"  value="{{speciality.specialityId}}" >{{speciality.name}}</option>
-                         </select>
-                        </div>
+                        
                     
                       </div>
                        <br>
+                       <br>
+                       
                     <div>
+                     
                      <table class="table" *ngIf="teacherId">
+                      <div>
+                        <input class="input-material" type="date" formControlName="capacity"   (keyup)="getDisponibility($event.target)" placeholder="date">
+                        </div>
                       <thead>
                         <tr>
                           <th scope="col">#</th>
                           <th scope="col">jour</th>
                           <th scope="col">heure debut</th>
                           <th scope="col">heure fin</th>
+                          <th scope="col">Action</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -53,6 +62,12 @@
                           <td>{{disp.day}}</td>
                           <td>{{disp.timeD}}</td>
                           <td>{{disp.timeF}}</td>
+
+                          <td>
+                            <input type="checkbox" (click)="updateDispo(disp.dispoId,disp.timeD,disp.timeF,disp.day)" >
+                           
+                          </td>
+                          
                         </tr>
                         
                       </tbody>
@@ -64,26 +79,28 @@
                         <div>
                         <input class="input-material" type="text" formControlName="capacity"   (keyup)="getCapacity($event.target)">
                         <label class="label-material" for="capacity">place </label>
-                            <button (click)="generate()">Auto Planing</button>
+                            
                         </div>
                         <br>
                         <div>
                           <table class="table">
                            <thead>
                              <tr>
-                               <th scope="col">#</th>
                                <th scope="col">salle</th>
                                <th scope="col">capacité</th>
                                <th scope="col">état</th>
+                               <th scope="col">Action</th>
                              </tr>
                            </thead>
                            <tbody>
                              <tr *ngFor="let room of rooms">
-                               <th scope="row">{{room.roomId}}</th>
                                <td>{{room.name}}</td>
                                <td>{{room.capacity}}</td>
                                <td *ngIf="room.state">occupé</td>
                                <td *ngIf="!room.state">disponible</td>
+                               <td *ngIf="!room.state">
+                                <button (click)="getNameRoom(room.name)" class="btn btn-secondary">Selectionné</button>
+                              </td>
                              </tr>
                              
                            </tbody>
@@ -91,9 +108,11 @@
                        </div>
                       </div>
                       </div>
+
+
                       
                       <br>
-                      <br>
+                      <br><!--
                   <h3 style="text-align: center;">Programmer </h3>
                   <br>
                   <br>
@@ -110,6 +129,10 @@
                 </div>
                   <br>
                     <br>
+                    -->
+
+
+                    <!--
                   <div class="row" style="text-align: center;">
                     
                   <h4 >Heure Debut </h4>
@@ -136,12 +159,23 @@
                           <label class="label-material" for="heure">minute</label>
                         </div>
                       </div>
+                      
                       <br>
+                      -->
+                  </div>
+                  <div class="col-6 text-center">
+
+                    
+                    <button class="btn btn-primary mb-3" (click)="addEvent()">Ajouter</button>
+                   <!-- <button class="btn btn-primary mb-3"  (click)="onSubmit()">Register</button><br><span class="text-xs text-gray-500">Already have an account?  </span><a class="text-xs text-paleBlue ms-1" href="login.html">Login</a>-->
+                  </div>
+                  
+                  <div class="col-6 text-center">
+
+                    <button  class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#exampleModal">Auto Planing</button>
+                   <!-- <button class="btn btn-primary mb-3"  (click)="onSubmit()">Register</button><br><span class="text-xs text-gray-500">Already have an account?  </span><a class="text-xs text-paleBlue ms-1" href="login.html">Login</a>-->
                   </div>
 
-                  <div class="col-12 text-center">
-                    <button class="btn btn-primary mb-3"  (click)="onSubmit()">Register</button><br><span class="text-xs text-gray-500">Already have an account?  </span><a class="text-xs text-paleBlue ms-1" href="login.html">Login</a>
-                  </div>
                 </div>
               </form>
             </div>
@@ -149,6 +183,35 @@
         </div>
       </div>
     </div>
+
+
+                 
+    
+                  <!-- Modal -->
+                  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          <div>
+                            <label class="label-material" for="capacity">periode Debut </label>
+                            <input class="input-material" type="date"   [(ngModel)]="periodeD"  >
+                            <label class="label-material" for="capacity">periode Fin </label>
+                            <input class="input-material" type="date"   [(ngModel)]="periodeF"  >
+                            </div>
+                         </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                          <button type="button" class="btn btn-primary" (click)="generate()">Save changes</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+   
+
     <div class="text-center position-absolute bottom-0 start-0 w-100 z-index-20">
       <p class="text-gray-500">Design by <a class="external" href="https://bootstrapious.com/p/admin-template">Bootstrapious</a>
         <!-- Please do not remove the backlink to us unless you support further theme's development at https://bootstrapious.com/donate. It is part of the license conditions. Thank you for understanding :)                      -->

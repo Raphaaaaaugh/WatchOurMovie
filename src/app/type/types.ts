@@ -40,6 +40,7 @@ export interface Teacher{
 export interface Speciality{
     specialityId:number;
     name:string;
+    groupSize:number;
 }
 
 export interface Room{
@@ -90,14 +91,22 @@ export interface Exam{
         matter:Matter;
         teacher:Teacher;
         room:Room;
-        timeslot:Disponibility;
+        timeslot:TimeslotToList;
 }
 
 
 export interface TimeTable{
-    disponibilities:Disponibility[];
+    disponibilities:TimeslotToList[];
     roomList:Room[];
     teachersList:Teacher[];
     exam:Exam[];
    
+}
+
+
+export interface TimeslotToList{
+   
+      dayOfWeek:string;
+	  startTime:string;
+	  endTime:string;
 }
