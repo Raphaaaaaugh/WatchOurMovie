@@ -195,29 +195,31 @@
                           <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
                           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div class="modal-body row">
-                          <div class="">
-                            <label class="label-material" for="capacity">periode Debut </label>
-                            <input class="input-material" type="date"   [(ngModel)]="periodeD"  >
-                            <label class="label-material" for="capacity">periode Fin </label>
-                            <input class="input-material" type="date"   [(ngModel)]="periodeF"  >
+                        <div class="modal-body ">
+
+                          <div class="container">
+                            <div class="row">
+                              <label class="label-material " for="capacity">periode Debut </label>
+                            <input class="input-material " type="date"   [(ngModel)]="periodeD"  >
                             </div>
-                            <div class="">
-                              <div class="">
-                                <label class="label-material" for="capacity">salle à ne pas choisir </label>
+                            <div class="row">
+                              <label class="label-material " for="capacity">periode Fin </label>
+                              <input class="input-material " type="date"   [(ngModel)]="periodeF"  >
+                            </div>
+                            <div class="row">
+                              <label class="label-material" for="capacity">salle à ne pas choisir </label>
                                 <select [(ngModel)]="roomExclus" id="speciality" multiple>
                                   <option *ngFor="let speciality of rooms"  value="{{speciality.roomId}}">{{speciality.name}}</option>
                                </select>
-                               <label class="label-material" for="capacity">matière à ne pas choisir </label>
-                                <select [(ngModel)]="matterExclus" id="speciality" multiple>
-                                  <option *ngFor="let speciality of specialities"  value="{{speciality.specialityId}}" (mwlClick)="getMatters(speciality.groupSize,speciality.specialityId)">{{speciality.name}}</option>
-                               </select>
-                              </div>
-                             
-                              
-                             
-                              </div>
-                         </div>
+                            </div>
+                            <div class="row">
+                              <label class="label-material" for="capacity">matière à ne pas choisir </label>
+                              <select [(ngModel)]="matterExclus" id="speciality" multiple>
+                                <option *ngFor="let speciality of specialities"  value="{{speciality.specialityId}}" (mwlClick)="getMatters(speciality.groupSize,speciality.specialityId)">{{speciality.name}}</option>
+                             </select>
+                            </div>
+                          </div>
+                        </div>
                         <div class="modal-footer">
                           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                           <button type="button" class="btn btn-primary" (click)="generate()">Save changes</button>
@@ -227,12 +229,7 @@
                   </div>
    
 
-    <div class="text-center position-absolute bottom-0 start-0 w-100 z-index-20">
-      <p class="text-gray-500">Design by <a class="external" href="https://bootstrapious.com/p/admin-template">Bootstrapious</a>
-        <!-- Please do not remove the backlink to us unless you support further theme's development at https://bootstrapious.com/donate. It is part of the license conditions. Thank you for understanding :)                      -->
-      </p>
-    </div>
-  </div>
+  
   <!-- JavaScript files-->
   <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="vendor/chart.js/Chart.min.js"></script>
