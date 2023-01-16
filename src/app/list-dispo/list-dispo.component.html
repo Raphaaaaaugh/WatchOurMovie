@@ -195,13 +195,28 @@
                           <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
                           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div class="modal-body">
-                          <div>
+                        <div class="modal-body row">
+                          <div class="">
                             <label class="label-material" for="capacity">periode Debut </label>
                             <input class="input-material" type="date"   [(ngModel)]="periodeD"  >
                             <label class="label-material" for="capacity">periode Fin </label>
                             <input class="input-material" type="date"   [(ngModel)]="periodeF"  >
                             </div>
+                            <div class="">
+                              <div class="">
+                                <label class="label-material" for="capacity">salle à ne pas choisir </label>
+                                <select [(ngModel)]="roomExclus" id="speciality" multiple>
+                                  <option *ngFor="let speciality of rooms"  value="{{speciality.roomId}}">{{speciality.name}}</option>
+                               </select>
+                               <label class="label-material" for="capacity">matière à ne pas choisir </label>
+                                <select [(ngModel)]="matterExclus" id="speciality" multiple>
+                                  <option *ngFor="let speciality of specialities"  value="{{speciality.specialityId}}" (mwlClick)="getMatters(speciality.groupSize,speciality.specialityId)">{{speciality.name}}</option>
+                               </select>
+                              </div>
+                             
+                              
+                             
+                              </div>
                          </div>
                         <div class="modal-footer">
                           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

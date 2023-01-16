@@ -16,11 +16,14 @@ export class ListDispoComponent implements OnInit {
 
 periodeD!:any;
 periodeF!:any;
+roomExclus!:any[];
+matterExclus!:any[];
 dispoForm!:FormGroup;
 teachers!:Teacher[];
 dispo!:Disponibility[];
 matters:Matter[]=[];
 rooms:Room[]=[];
+roomsToSend!:Map<number,Room>;
 teacherId!:number;
 matterMap!:Map<number,Matter>
 specMap!:Map<number,Matter>
@@ -48,6 +51,7 @@ day!:string
     this.mapDispo = new Map<number,boolean>();
     this.mapDispoD = new Map<string,boolean>();
     this.mapDispoF = new Map<string,boolean>();
+    this.roomsToSend = new Map<number,Room>();
   }
 
   ngOnInit(): void {
@@ -75,7 +79,6 @@ this.planingService.getRooms().subscribe(room=>{
 this.planingService.getSpecialities().subscribe(speciality=> {
   this.specialities=speciality
 },err=>console.log(err))
-
 
 
 
@@ -129,6 +132,14 @@ this.planingService.getSpecialities().subscribe(speciality=> {
 
 
 }
+
+
+exclusRoom(){
+console.log(this.rooms,"les rooms")
+
+
+}
+
 
 
 public updateDispo(id:number,timeD:string,timeF:string,day:string) {
@@ -382,7 +393,29 @@ console.log(event);
 
 
 generate(){
+  console.log(this.rooms,this.roomExclus,"les rooms")
+  let i=0;
+  if (this.roomExclus) {
+    
+    this.roomExclus.forEach((id)=>{
+      i=0;
+      this.rooms.forEach((r)=>{
+        if (r.roomId===Number(id)) { 
+          this.roomsToSend.set(i,r)      
+        }
+        i++;
+      })
+    })
+
+  }
   
+  for (let index of this.roomsToSend.keys()) {
+    delete this.rooms[index]
+  }
+
+  console.log(this.rooms,"les rooms to send")
+
+
   let time : TimeslotToList[]=[];
 
 if (this.periodeD && this.periodeF && this.periodeD<=this.periodeF) {
