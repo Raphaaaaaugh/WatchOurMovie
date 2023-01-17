@@ -839,6 +839,7 @@ event.forEach(e=>{
       timeF=hD+":"+(min/60 - Math.trunc(min/60))*60+":00";
     }
 console.log(timeD,index,"les times")
+/*
     this.planingService.getDisponibilityByDayTimeD(e.teacher.teacherId,e.day,timeD).subscribe(dispo=>{
 
       this.planingService.updateDisponibility(dispo).subscribe(d=>{},err=>{
@@ -847,7 +848,7 @@ console.log(timeD,index,"les times")
         Swal.fire('echec  ', 'erreur lors de la disponibilié', 'error');
       })
   
-    })
+    })*/
 
     timeD=timeF;
   }
