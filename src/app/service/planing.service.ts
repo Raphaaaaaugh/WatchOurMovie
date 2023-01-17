@@ -117,9 +117,14 @@ if (login.roleUser==="student") {
     return  this.httpClient.get<Disponibility[]>(`${this.urlApi}/disponibility/day/${day}`);
   }
 
-  public getDisponibilityByDayTime(teacherId:number,day:string,timeD:string,timeF:string): Observable<Disponibility[]>
+  public getDisponibilityByDayTime(teacherId:number,day:string,timeD:string,timeF:string): Observable<Disponibility>
   {
-    return  this.httpClient.get<Disponibility[]>(`${this.urlApi}/disponibility/DayTime/${teacherId}/${day}/${timeD}/${timeF}`);
+    return  this.httpClient.get<Disponibility>(`${this.urlApi}/disponibility/DayTime/${teacherId}/${day}/${timeD}/${timeF}`);
+  }
+
+  public getDisponibilityByDayTimeD(teacherId:number,day:string,timeD:string): Observable<Disponibility>
+  {
+    return  this.httpClient.get<Disponibility>(`${this.urlApi}/disponibility/DayTime/${teacherId}/${day}/${timeD}`);
   }
 
   public getDisponibilities(): Observable<Disponibility[]>

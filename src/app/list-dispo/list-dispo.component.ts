@@ -36,7 +36,7 @@ nameRoom!:string;
 role=sessionStorage.getItem("role");
 specialities:Speciality[]=[];
 nbrPlace:number=0;
-event!:Event[];
+event:Event[]=[];
 disponibilities!:Disponibility[];
 teachersList!:Teacher[];
 matterss!:Matter[];
@@ -353,7 +353,7 @@ addEvent(){
           })
 
 
-          event.push({
+          this.event.push({
             eventId:0,
             timeD:t.timeD,
             timeF:t.timeF,
@@ -364,7 +364,8 @@ addEvent(){
             },
             teacher:{
               teacherId:this.teacherId
-            }
+            },
+            nameRoom:this.nameRoom
           })
          })
 
@@ -393,8 +394,12 @@ console.log(event);
 
 
 generate(){
+
+
   console.log(this.rooms,this.roomExclus,"les rooms")
   let i=0;
+
+
   if (this.roomExclus) {
     
     this.roomExclus.forEach((id)=>{
@@ -407,11 +412,13 @@ generate(){
       })
     })
 
+    for (let index of this.roomsToSend.keys()) {
+      delete this.rooms[index]
+    }
+
   }
   
-  for (let index of this.roomsToSend.keys()) {
-    delete this.rooms[index]
-  }
+  
 
   console.log(this.rooms,"les rooms to send")
 
@@ -457,6 +464,29 @@ this.planingService.getMatters().subscribe(room=>{
                 }
               ).subscribe(timeTable=>{
                 console.log(timeTable,"bien ca passe ")
+                const event:Event[]=[];
+                timeTable.exam.forEach(ex=>{
+
+
+                  this.event.push({
+                    eventId:0,
+                    timeD:ex.timeslot.startTime,
+                    timeF:ex.timeslot.endTime,
+                    day:ex.timeslot.dayOfWeek,
+                    title:"la salle est ."+ex.room.name,
+                    speciality:{
+                      specialityId:ex.speciality.specialityId,
+                  },
+                  teacher:{
+                      teacherId:ex.teacher.teacherId
+                  },
+                  nameRoom:ex.room.name
+                  })
+
+                                 
+
+                })
+                this.addEventAuto(this.event)   
               },err=>console.log(err))
 
               console.log("generate");
@@ -595,7 +625,7 @@ matter(id:number,matterName:string){
     for(let i=0; i<timeSlots.length; i++){
         let startTime = `${timeSlots[i].start}:00`;
         let endTime = `${timeSlots[i].end}:00`;
-        schedule.push({ dayOfWeek: start.toLocaleDateString(), startTime: startTime, endTime: endTime });
+        schedule.push({ dayOfWeek: start.toJSON().slice(0,10), startTime: startTime, endTime: endTime });
     }
     start.setDate(start.getDate() + 1);
   }
@@ -766,6 +796,87 @@ addEvent(){
   }
 */  
 
+
+
+addEventAuto(event:Event[]){
+
+  console.log("add event");
+
+
+/*
+       this.planingService.updateDisponibility(d).subscribe(dispo=>{},err=>{
+        console.log(err);
+        this.router.navigate(['/listDisponibility']);
+        Swal.fire('echec  ', 'erreur lors de l\'affectation de la disponibilité', 'error');
+      })*/
+  
+  
+event.forEach(e=>{
+
+
+  this.planingService.getRoomsByName(e.nameRoom).subscribe(room=>{
+
+    this.planingService.updateRoom(room).subscribe(room=>{},err=>{
+      console.log(err);
+      this.router.navigate(['/listDisponibility']);
+        Swal.fire('echec  ', 'erreur lors de l\'occupation de la salle', 'error');
+    })
+  })
+  let min=Number(e.timeD.split(":")[1]);
+  let hD=Number(e.timeD.split(":")[0]);
+  let timeF="";
+  let timeD=e.timeD;
+
+  for (let index = 1; index <= 3; index++) {
+    min=min+30;
+    if(min%60==0){
+      hD++;
+      timeF=hD+":00:00";
+    }else{
+      if (Math.trunc(min/60)>0 && Math.trunc(min/60)%2!==0 && timeD.split(":")[1]==="30") {
+        hD++;
+      }
+      timeF=hD+":"+(min/60 - Math.trunc(min/60))*60+":00";
+    }
+console.log(timeD,index,"les times")
+    this.planingService.getDisponibilityByDayTimeD(e.teacher.teacherId,e.day,timeD).subscribe(dispo=>{
+
+      this.planingService.updateDisponibility(dispo).subscribe(d=>{},err=>{
+        
+        this.router.navigate(['/listDisponibility']);
+        Swal.fire('echec  ', 'erreur lors de la disponibilié', 'error');
+      })
+  
+    })
+
+    timeD=timeF;
+  }
+
+  
+  
+
+  this.planingService.getEventsByDay(e.day).subscribe(event=>{
+    event.forEach(ev=>{
+      if (e.timeD===ev.timeD && ev.speciality.specialityId===Number(e.speciality.specialityId)) {
+        
+  this.router.navigate(['/listDisponibility']);
+
+  Swal.fire('echec  ', 'event déjà occupé', 'error');
+ 
+}
+    })
+  })
+
+  this.planingService.addEvent(e).subscribe(event=>{
+    console.log(event);
+    Swal.fire('ok  ', 'Enregistrement réussi', 'success');
+
+    },err=>console.log(err))
+
+})
+ 
+
+}
 
 
 }

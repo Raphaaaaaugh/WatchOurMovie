@@ -88,7 +88,7 @@ if (this.dispoForm.valid ) {
    
    const time=this.dispoForm.value.heureF+":"+this.dispoForm.value.minuteF+":00";
     let min=Number(this.dispoForm.value.minuteD);
-    let m=min;
+    
     let hD=Number(this.dispoForm.value.heureD);
     const nbrDispo=hour/30;
     console.log(hour,nbrDispo)
