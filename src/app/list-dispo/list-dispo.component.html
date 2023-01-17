@@ -221,7 +221,7 @@
                             <div class="row">
                               <label class="label-material" for="capacity">matière à ne pas choisir </label>
                               <select class="form-select " [(ngModel)]="matterExclus" id="speciality" multiple>
-                                <option *ngFor="let speciality of specialities"  value="{{speciality.specialityId}}" (mwlClick)="getMatters(speciality.groupSize,speciality.specialityId)">{{speciality.name}}</option>
+                                <option *ngFor="let speciality of matters"  value="{{speciality.matterId}}" >{{speciality.name}}</option>
                              </select>
                             </div>
                           </div>

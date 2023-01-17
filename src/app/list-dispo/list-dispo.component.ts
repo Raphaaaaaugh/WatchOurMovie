@@ -18,6 +18,7 @@ periodeD!:any;
 periodeF!:any;
 roomExclus!:any[];
 matterExclus!:any[];
+mattersToSend!:Map<number,Matter>;
 dispoForm!:FormGroup;
 teachers!:Teacher[];
 dispo!:Disponibility[];
@@ -25,7 +26,7 @@ matters:Matter[]=[];
 rooms:Room[]=[];
 roomsToSend!:Map<number,Room>;
 teacherId!:number;
-matterMap!:Map<number,Matter>
+matterMap!:Map<number,Matter>;
 specMap!:Map<number,Matter>
 map!:Map<number,string>
 mapDispo!:Map<number,boolean>
@@ -52,6 +53,7 @@ day!:string
     this.mapDispoD = new Map<string,boolean>();
     this.mapDispoF = new Map<string,boolean>();
     this.roomsToSend = new Map<number,Room>();
+    this.mattersToSend = new Map<number,Matter>();
   }
 
   ngOnInit(): void {
@@ -80,7 +82,9 @@ this.planingService.getSpecialities().subscribe(speciality=> {
   this.specialities=speciality
 },err=>console.log(err))
 
-
+this.planingService.getMatters().subscribe(matter => {
+  this.matters = matter
+}, err=>console.log(err))
 
 
   this.planingService.getEventsByDay(new Date().toJSON().slice(0,10)).subscribe(event=>{
@@ -415,10 +419,28 @@ generate(){
     for (let index of this.roomsToSend.keys()) {
       delete this.rooms[index]
     }
+}
 
+if (this.matterExclus) {
+    
+  this.matterExclus.forEach((id)=>{
+    i=0;
+    this.matters.forEach((r)=>{
+      if (r.matterId===Number(id)) { 
+        this.mattersToSend.set(i,r)      
+      }
+      i++;
+    })
+  })
+
+  for (let index of this.mattersToSend.keys()) {
+    delete this.matters[index]
   }
+
+}
+
   
-  
+  console.log(this.matters, " matter to send");
 
   console.log(this.rooms,"les rooms to send")
 
