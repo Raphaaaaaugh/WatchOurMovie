@@ -16,26 +16,33 @@
                     <div class="input-material-group  col-md-5">
                       <div class="row">
 
-                        <div class="">
-                          <select formControlName="speciality" id="speciality" multiple>
+                        <div class="row">
+                          <label class="col-md" for="speciality">Selectionné La speciality:</label>
+                          <select class="col-md" size="3" name="speciality" class="form-select" formControlName="speciality" id="speciality" multiple>
                             <option *ngFor="let speciality of specialities"  value="{{speciality.specialityId}}" (mwlClick)="getMatters(speciality.groupSize,speciality.specialityId)">{{speciality.name}}</option>
                          </select>
                         </div>
-
-                        <div class="input-material-group ">
-                          <select formControlName="matter" id="matter" >
+                        <div class="divbox">
+                          <p>           </p>
+                        </div>
+                        <div class="row ">
+                          <label class="col-md" for="speciality">Selectionné La matière :</label>
+                          <select class="form-select col-md" formControlName="matter" id="matter" >
                             <option [ngValue]="null" >Selectionné matière</option>
                             <option  *ngFor="let m of matters"  value="{{m.matterId}}" (mwlClick)="matter(m.matterId,m.name)">{{m.name}}</option>
                         </select>
                         </div>
-
-                        <div class="">
-                          <select formControlName="teacher" id="teacher" >
-                              <option [ngValue]="null" >Selectionné enseignant</option>
+                      <br>
+                      <div class="divbox">
+                        <p>           </p>
+                      </div>
+                        <div class="row">
+                          <label class="col-md" for="speciality">Selectionné Le prof :</label>
+                          <select  class="form-select col-md" formControlName="teacher" id="teacher" >
+                              <option [ngValue]="null" selected>Selectionné enseignant</option>
                               <option  *ngFor="let teacher of teachers"  value="{{teacher.teacherId}}" (mwlClick)="teach(teacher.teacherId)">{{teacher.firstName}} {{teacher.lastName}}</option>
                           </select>
                         </div>
-                        
                     
                       </div>
                        <br>
@@ -43,7 +50,7 @@
                        
                     <div>
                      
-                     <table class="table" *ngIf="teacherId">
+                     <table class="table table-striped" *ngIf="teacherId">
                       <div>
                         <input class="input-material" type="date" formControlName="capacity"   (keyup)="getDisponibility($event.target)" placeholder="date">
                         </div>
@@ -78,12 +85,12 @@
                       <div class="input-material-group mb-3 col-md-5">
                         <div>
                         <input class="input-material" type="text" formControlName="capacity"   (keyup)="getCapacity($event.target)">
-                        <label class="label-material" for="capacity">place </label>
+                        <label class="label-material" for="capacity">Selectionné la salle </label>
                             
                         </div>
                         <br>
                         <div>
-                          <table class="table">
+                          <table class="table table-striped">
                            <thead>
                              <tr>
                                <th scope="col">salle</th>
@@ -196,8 +203,7 @@
                           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body ">
-
-                          <div class="container">
+                          <div class="">
                             <div class="row">
                               <label class="label-material " for="capacity">periode Debut </label>
                             <input class="input-material " type="date"   [(ngModel)]="periodeD"  >
@@ -208,13 +214,13 @@
                             </div>
                             <div class="row">
                               <label class="label-material" for="capacity">salle à ne pas choisir </label>
-                                <select [(ngModel)]="roomExclus" id="speciality" multiple>
+                                <select class="form-select " [(ngModel)]="roomExclus" id="speciality" multiple>
                                   <option *ngFor="let speciality of rooms"  value="{{speciality.roomId}}">{{speciality.name}}</option>
                                </select>
                             </div>
                             <div class="row">
                               <label class="label-material" for="capacity">matière à ne pas choisir </label>
-                              <select [(ngModel)]="matterExclus" id="speciality" multiple>
+                              <select class="form-select " [(ngModel)]="matterExclus" id="speciality" multiple>
                                 <option *ngFor="let speciality of specialities"  value="{{speciality.specialityId}}" (mwlClick)="getMatters(speciality.groupSize,speciality.specialityId)">{{speciality.name}}</option>
                              </select>
                             </div>
