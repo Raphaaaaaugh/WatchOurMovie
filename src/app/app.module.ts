@@ -18,6 +18,7 @@ import { DisponibilityComponent } from './disponibility/disponibility.component'
 import { ListDispoComponent } from './list-dispo/list-dispo.component';
 import { SpecialityComponent } from './speciality/speciality.component';
 import { MatterComponent } from './matter/matter.component';
+import { AddMatterComponent } from './add-matter/add-matter.component';
 
 
 class CustomDateFormatter extends CalendarNativeDateFormatter {
@@ -47,7 +48,8 @@ class CustomDateFormatter extends CalendarNativeDateFormatter {
     DisponibilityComponent,
     ListDispoComponent,
     SpecialityComponent,
-    MatterComponent
+    MatterComponent,
+    AddMatterComponent
   ],
   imports: [
     BrowserModule,

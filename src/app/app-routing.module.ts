@@ -1,5 +1,6 @@
 import { Component, NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AddMatterComponent } from './add-matter/add-matter.component';
 import { CalendrierComponent } from './calendrier/calendrier.component';
 import { DisponibilityComponent } from './disponibility/disponibility.component';
 import { HomeComponent } from './home/home.component';
@@ -18,6 +19,9 @@ const routes: Routes = [
   },
   {
     path:'matter', component :MatterComponent
+  },
+  {
+    path:'addmatter', component : AddMatterComponent
   },
   {
     path:'listDisponibility', component :ListDispoComponent
