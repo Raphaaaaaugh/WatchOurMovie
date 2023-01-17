@@ -23,12 +23,15 @@
           </div>
           <!-- Navbar Menu -->
           <ul class="nav-menu list-unstyled d-flex flex-md-row align-items-md-center">
-            <!-- Search-->
+           <!-- Search-->
+           <!-- Notifications-->
+            <!--
+           
             <li class="nav-item d-flex align-items-center"><a id="search" href="#">
                 <svg class="svg-icon svg-icon-xs svg-icon-heavy">
                   <use xlink:href="#find-1"> </use>
                 </svg></a></li>
-            <!-- Notifications-->
+            
             <li class="nav-item dropdown"> <a class="nav-link text-white" id="notifications" href="#" data-bs-toggle="dropdown" aria-expanded="false">
                 <svg class="svg-icon svg-icon-xs svg-icon-heavy">
                   <use xlink:href="#chart-1"> </use>
@@ -73,7 +76,7 @@
                 <li><a class="dropdown-item all-notifications text-center" href="#"> <strong class="text-xs text-gray-600">view all notifications                                            </strong></a></li>
               </ul>
             </li>
-            <!-- Messages                        -->
+            -- Messages                        --
             <li class="nav-item dropdown"> <a class="nav-link text-white" id="messages" rel="nofollow" href="#" data-bs-toggle="dropdown" aria-expanded="false">
                 
                 <svg class="svg-icon svg-icon-xs svg-icon-heavy">
@@ -93,6 +96,7 @@
                 <li><a class="dropdown-item text-center" href="#"> <strong class="text-xs text-gray-600">Read all messages   </strong></a></li>
               </ul>
             </li>
+          -->
             <!-- Languages dropdown    -->
             <li class="nav-item dropdown"><a class="nav-link text-white dropdown-toggle d-flex align-items-center" id="languages" href="#" data-bs-toggle="dropdown" aria-expanded="false"><img class="me-2" src="../assets/img/flags/16/GB.png" alt="English"><span class="d-none d-sm-inline-block">English</span></a>
               <ul class="dropdown-menu dropdown-menu-end mt-3 shadow-sm" aria-labelledby="languages">
@@ -146,20 +150,26 @@
             </svg>Disponibilité </a>
           <ul class="collapse list-unstyled " id="exampledropdownDropdown">
             <li><a class="sidebar-link" routerLink="disponibility">Ajouter disponibilité</a></li>
-            <li><a class="sidebar-link" routerLink="listDisponibility">Lister disponibilité</a></li>
-            <li><a class="sidebar-link" routerLink="speciality">Spécialité</a></li>
-            <li><a class="sidebar-link" routerLink="matter">Matiére</a></li>
-            <li><a class="sidebar-link" routerLink="addmatter">Ajouter Matiére</a></li>
+            <li><a class="sidebar-link" routerLink="listDisponibility">Ajouter Event</a></li>
           </ul>
         </li>
-        <li class="sidebar-item"><a class="sidebar-link" href="#exampledropdownDropdown" data-bs-toggle="collapse"> 
+        <li class="sidebar-item"><a class="sidebar-link" href="#exampledropdownDropdown1" data-bs-toggle="collapse"> 
           <svg class="svg-icon svg-icon-sm svg-icon-heavy me-xl-2">
             <use xlink:href="#browser-window-1"> </use>
           </svg>specialities </a>
-        <ul class="collapse list-unstyled " id="exampledropdownDropdown">
+        <ul class="collapse list-unstyled " id="exampledropdownDropdown1">
           <li><a class="sidebar-link" routerLink="speciality">Lister specialities</a></li>
         </ul>
-      </li>
+       </li>
+       <li class="sidebar-item"><a class="sidebar-link" href="#exampledropdownDropdown2" data-bs-toggle="collapse"> 
+        <svg class="svg-icon svg-icon-sm svg-icon-heavy me-xl-2">
+          <use xlink:href="#browser-window-1"> </use>
+        </svg>Matiére </a>
+      <ul class="collapse list-unstyled " id="exampledropdownDropdown2">
+        <li><a class="sidebar-link" routerLink="matter">Lister Matiére</a></li>
+        <li><a class="sidebar-link" routerLink="addmatter">Ajouter Matiére</a></li>
+      </ul>
+     </li>
         <li class="sidebar-item"><a class="sidebar-link" routerLink="/login"> 
             <svg class="svg-icon svg-icon-sm svg-icon-heavy me-xl-2">
               <use xlink:href="#disable-1"> </use>
