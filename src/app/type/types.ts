@@ -81,6 +81,7 @@ export interface Event{
     teacher:{
         teacherId:number;
     };
+    nameRoom:string;
 }
 
 
