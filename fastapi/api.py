@@ -53,7 +53,6 @@ def fetch_user(firstname: str):
 
 @app.get("/movie_id/{movie_id}")
 async def get_movie_details(movie_id: int):
-    movie_id = "123"  # Replace with the actual movie ID
     url = f"{base_url}/3/movie/{movie_id}?api_key={api_key}"
     response = requests.get(url)
     if response.status_code == 200:
