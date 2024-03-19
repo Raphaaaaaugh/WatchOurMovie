@@ -14,11 +14,11 @@ api_key = "5cad553ca21b1db5886498f3843a8264"
 #---------------------------------------------------------------------------------------------
 # User related endpoints
 
-
 @app.get("/")
 async def root():
     return {"message": "Hello, World!"}
 
+"""
 @app.get("/create_user/{firstname}")
 def create_user(firstname: str):
     config = mysql.connector.connect(
@@ -33,7 +33,7 @@ def create_user(firstname: str):
     cursor.close()
     config.close()
     return results
-
+"""
 
 @app.get("/infos_user/{firstname}")
 def fetch_user(firstname: str):

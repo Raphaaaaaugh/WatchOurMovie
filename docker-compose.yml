@@ -24,7 +24,6 @@ services:
       - "3306:3306"
     environment:
       - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=VOM
     networks:
       - mynet
   
@@ -36,6 +35,12 @@ services:
       - mynet
 
 
+  nginx-proxy:
+    build: ./proxy
+    ports:
+      - "8081:8081"
+    networks:
+      - mynet
 
 networks:
   mynet:
