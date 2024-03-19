@@ -1,6 +1,7 @@
 import string
 from fastapi import FastAPI, HTTPException
 import requests
+from requests import Request
 import mysql.connector
 from pydantic import BaseModel
 from typing import Optional
@@ -12,16 +13,26 @@ base_url = "http://nginx-proxy:8081"
 api_key = "5cad553ca21b1db5886498f3843a8264"
 
 #---------------------------------------------------------------------------------------------
-# User related endpoints
 
+class User(BaseModel):
+    name: str
+    firstname: str
+    price: float
+
+#---------------------------------------------------------------------------------------------
+    
 
 @app.get("/")
 async def root():
     return {"message": "Hello, World!"}
 
-
-@app.get("/create_user/{firstname}")
-def create_user(firstname: str):
+"""
+@app.post("/create_user/")
+async def create_user(request: Request):
+    data = await request.json()
+    firstname = data.get("firstname")
+    if not firstname:
+        return {"error": "Please provide a firstname in the request body"}
     config = mysql.connector.connect(
         host="db",
         user="api",
@@ -34,7 +45,7 @@ def create_user(firstname: str):
     cursor.close()
     config.close()
     return {"message": "User created successfully"}
-
+"""
 
 @app.get("/infos_user/{firstname}")
 def fetch_user(firstname: str):

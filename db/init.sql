@@ -7,29 +7,39 @@ USE WOM;
 -- Create a table for movies
 CREATE TABLE movies (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    genre VARCHAR(50),
-    duration INT
+    title VARCHAR(255) NOT NULL,
+    adult INT,
+    release_date VARCHAR(10) NOT NULL,
+    genre_ids TEXT,
+    runtime VARCHAR(3),
+    original_title VARCHAR(255) NOT NULL,
+    original_language VARCHAR(50) NOT NULL,
+    backdrop_path VARCHAR(255) NOT NULL,
+    popularity FLOAT,
+    vote_count INT,
+    video INT,
+    vote_average FLOAT
 );
 
 -- Insert sample movies data
-INSERT INTO movies (id, name, genre, duration)
-VALUES
-    (1, 'Movie1', 'Action', 120),
-    (2, 'Movie2', 'Drama', 150),
-    (3, 'Movie3', 'Comedy', 110);
 
 -- Create a table for users
 CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
     firstname VARCHAR(255) NOT NULL,
-    -- Creating a relationship with movies table
-    seen_movies_list VARCHAR(255)
+    name VARCHAR(255) NOT NULL,
+    password VARCHAR(20) NOT NULL,
+    secret_question TEXT,
+    secret_answer TEXT,
+    seen_movies_list TEXT,
+    favorite_genres VARCHAR(10),
+    favorite_period VARCHAR(10),
+    favorite_runtime VARCHAR(10),
+    like_adult INT
 );
 
 -- Insert sample users data
-INSERT INTO users (id, name, firstname, seen_movies_list)
+INSERT INTO users (id, name, firstname, password, seen_movies_list, like_adult)
 VALUES
-    (1, 'User1', 'John', 'Movie1,Movie2'),
-    (2, 'User2', 'Jane', 'Movie3');
+    (1, 'User1', 'John', 'pwd', 'Movie1,Movie2', 0),
+    (2, 'User2', 'Jane', 'pwd', 'Movie3', 1);
