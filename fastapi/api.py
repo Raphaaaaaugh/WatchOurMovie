@@ -8,11 +8,15 @@ from typing import Optional
 app = FastAPI()
 
 # Define the base URL and API key
-base_url = "https://api.themoviedb.org/3"
-api_key = "5cad553ca21b1db5886498f3843a8264"  # Replace this with your actual API key
+base_url = "http://nginx-proxy:8081"
+api_key = "5cad553ca21b1db5886498f3843a8264"
 
 #---------------------------------------------------------------------------------------------
 # User related endpoints
+
+@app.get("/")
+async def root():
+    return {"message": "Hello, World!"}
 
 """
 @app.get("/create_user/{firstname}")
@@ -49,8 +53,7 @@ def fetch_user(firstname: str):
 
 @app.get("/movie_id/{movie_id}")
 async def get_movie_details(movie_id: int):
-    movie_id = "123"  # Replace with the actual movie ID
-    url = f"https://api.themoviedb.org/3/movie/{movie_id}?api_key={api_key}"
+    url = f"{base_url}/3/movie/{movie_id}?api_key={api_key}"
     response = requests.get(url)
     if response.status_code == 200:
         # Process the response (e.g., convert it to JSON)
@@ -63,7 +66,7 @@ async def get_movie_details(movie_id: int):
 
 @app.get("/movie_genre/{genre_id}")
 async def requestFilmByGenreId(genre_id: int):
-    url = f"https://api.themoviedb.org/3/discover/movie?api_key={api_key}&with_genres={genre_id}"
+    url = f"{base_url}/3/discover/movie?api_key={api_key}&with_genres={genre_id}"
     movies_titles = []
     page = 1  # Start with page 1
     while page < 10:
