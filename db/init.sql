@@ -6,7 +6,7 @@ USE WOM;
 
 -- Create a table for movies
 CREATE TABLE movies (
-    id INT PRIMARY KEY,
+    id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     genre VARCHAR(50),
     duration INT
@@ -21,7 +21,7 @@ VALUES
 
 -- Create a table for users
 CREATE TABLE users (
-    id INT PRIMARY KEY,
+    id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     firstname VARCHAR(255) NOT NULL,
     -- Creating a relationship with movies table

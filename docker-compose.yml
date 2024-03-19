@@ -4,10 +4,12 @@ services:
     build: ./fastapi
     links:
       - db
+      - nginx-proxy
     ports:
       - "8000:8000"
     depends_on:
       - db
+      - nginx-proxy
     networks:
       - mynet
     environment:
@@ -26,6 +28,12 @@ services:
     networks:
       - mynet
 
+  nginx-proxy:
+    build: ./proxy
+    ports:
+      - "8081:8081"
+    networks:
+      - mynet
 
 networks:
   mynet:
