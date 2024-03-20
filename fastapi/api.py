@@ -1,9 +1,10 @@
 import string
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Query
 import requests
 import mysql.connector
 from pydantic import BaseModel
 from typing import Optional
+from typing import List
 
 app = FastAPI()
 
@@ -90,6 +91,29 @@ async def requestFilmByGenreId(genre_id: int):
     return movies_titles
 
 
+@app.get("/engine/")
+async def computeMovies(list_users: List[str] = Query(...)):
+    # Request must look like http://localhost:8000/engine/?list_users=John&list_users=Jane
+    config = mysql.connector.connect(
+        host="db",
+        user="api",
+        password="root",
+        database="WOM"
+    )
+    users = []
+    seen_movies = []
+    for name in list_users:
+        cursor = config.cursor(dictionary=True)
+        cursor.execute('SELECT * FROM users WHERE firstname=%s', (name,))
+        res = cursor.fetchall()
+        users.append(res)
+        cursor.execute('SELECT m.* FROM movies m INNER JOIN user_movie um ON m.id = um.movie_id INNER JOIN users u ON um.user_id = u.id WHERE u.firstname =%s', (name,))
+        res = cursor.fetchall()
+        seen_movies.append(res)
+        cursor.close()
+    config.close()
+    return users, seen_movies
+
 #---------------------------------------------------------------------------------------------
 # POST endpoints
 
@@ -134,6 +158,8 @@ async def add_film(film: Film):
 
 #---------------------------------------------------------------------------------------------
 # PUT endpoints
+
+
 
 
 

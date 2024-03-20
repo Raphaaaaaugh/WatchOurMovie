@@ -3,7 +3,6 @@ FROM mysql:latest
 
 # Environment variables
 ENV MYSQL_ROOT_PASSWORD=root
-ENV MYSQL_DATABASE=VOM
 
 # Copy the initialization script into the container
 COPY init.sql /docker-entrypoint-initdb.d/

@@ -21,8 +21,6 @@ CREATE TABLE movies (
     vote_average FLOAT
 );
 
--- Insert sample movies data
-
 -- Create a table for users
 CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -31,15 +29,37 @@ CREATE TABLE users (
     password VARCHAR(20) NOT NULL,
     secret_question TEXT,
     secret_answer TEXT,
-    seen_movies_list TEXT,
+    -- seen_movies_list TEXT,
     favorite_genres VARCHAR(10),
     favorite_period VARCHAR(10),
     favorite_runtime VARCHAR(10),
     like_adult INT
 );
 
+-- Create a table to represent the many-to-many relationship between users and movies
+CREATE TABLE user_movie (
+    user_id INT,
+    movie_id INT,
+    PRIMARY KEY (user_id, movie_id),
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (movie_id) REFERENCES movies(id)
+);
+
 -- Insert sample users data
-INSERT INTO users (id, name, firstname, password, seen_movies_list, like_adult)
+INSERT INTO users (id, name, firstname, password, like_adult)
 VALUES
-    (1, 'User1', 'John', 'pwd', 'Movie1,Movie2', 0),
-    (2, 'User2', 'Jane', 'pwd', 'Movie3', 1);
+    (1, 'User1', 'John', 'pwd', 0),
+    (2, 'User2', 'Jane', 'pwd', 1);
+
+-- Insert sample movies data
+INSERT INTO movies (title, adult, release_date, genre_ids, runtime, original_title, original_language, backdrop_path, popularity, vote_count, video, vote_average)
+VALUES
+    ('Movie1', 0, '2023-01-01', '1,2,3', '120', 'Movie1', 'English', '/path/to/backdrop1.jpg', 7.5, 1000, 0, 7.2),
+    ('Movie2', 1, '2024-02-15', '4,5,6', '95', 'Movie2', 'French', '/path/to/backdrop2.jpg', 8.2, 1500, 0, 8.5);
+
+-- Insert associations between users and movies
+INSERT INTO user_movie (user_id, movie_id)
+VALUES
+    (1, 1),  -- John (User1) has seen Movie1
+    (2, 1),  -- Jane (User2) has seen Movie1
+    (2, 2);  -- Jane (User2) has seen Movie2
