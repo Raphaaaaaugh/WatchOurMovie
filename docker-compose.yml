@@ -34,13 +34,5 @@ services:
     networks:
       - mynet
 
-
-  nginx-proxy:
-    build: ./proxy
-    ports:
-      - "8081:8081"
-    networks:
-      - mynet
-
 networks:
   mynet:

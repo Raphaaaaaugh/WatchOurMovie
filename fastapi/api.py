@@ -12,28 +12,27 @@ base_url = "http://nginx-proxy:8081"
 api_key = "5cad553ca21b1db5886498f3843a8264"
 
 #---------------------------------------------------------------------------------------------
-# User related endpoints
+# Classes
+
+class User(BaseModel):
+    name: str
+    firstname: str
+    password: str
+
+class Film(BaseModel):
+    title: str
+    release_date: str
+    original_title: str
+    original_language: str
+    backdrop_path: str
+
+#---------------------------------------------------------------------------------------------
+# GET endpoints
 
 @app.get("/")
 async def root():
     return {"message": "Hello, World!"}
 
-"""
-@app.get("/create_user/{firstname}")
-def create_user(firstname: str):
-    config = mysql.connector.connect(
-        host="db",
-        user="api",
-        password="root",
-        database="WOM"
-    )
-    cursor = config.cursor(dictionary=True)
-    cursor.execute('SELECT seen_movies_list FROM users WHERE firstname=%s', (firstname,))
-    results = cursor.fetchall()
-    cursor.close()
-    config.close()
-    return results
-"""
 
 @app.get("/infos_user/{firstname}")
 def fetch_user(firstname: str):
@@ -89,6 +88,52 @@ async def requestFilmByGenreId(genre_id: int):
             print(f"Error: {response.status_code}")
             break  # Stop fetching if there's an error
     return movies_titles
+
+
+#---------------------------------------------------------------------------------------------
+# POST endpoints
+
+
+@app.post("/create_user/")
+async def create_user(user: User):
+    firstname = user.firstname
+    name = user.name
+    password = user.password
+    if not firstname:
+        return {"error": "Please provide a firstname in the request body"}
+    config = mysql.connector.connect(
+        host="db",
+        user="api",
+        password="root",
+        database="WOM"
+    )
+    cursor = config.cursor(dictionary=True)
+    cursor.execute('INSERT INTO users (name, firstname, password) VALUES (%s, %s, %s)', (firstname, name, password))
+    config.commit()
+    cursor.close()
+    config.close()
+    return {"nah"}
+
+
+@app.post("/add_film/")
+async def add_film(film: Film):
+    if not film.title:
+        return {"error": "Please provide a title in the request body"}
+    config = mysql.connector.connect(
+        host="db",
+        user="api",
+        password="root",
+        database="WOM"
+    )
+    cursor = config.cursor(dictionary=True)
+    cursor.execute('INSERT INTO movies (title, release_date, original_language, original_title, backdrop_path) VALUES (%s, %s, %s, %s, %s)', (film.title, film.release_date, film.original_language, film.original_title, film.backdrop_path))
+    config.commit()
+    cursor.close()
+    config.close()
+
+
+#---------------------------------------------------------------------------------------------
+# PUT endpoints
 
 
 
