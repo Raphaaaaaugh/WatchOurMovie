@@ -24,7 +24,6 @@ loginForm!:FormGroup;
     this.loginForm = this.form.group({
       email : ['', [Validators.required]],
       password : ['', [Validators.required]],
-      roleUser : ['', [Validators.required]],
     }
       
     )
@@ -33,7 +32,7 @@ loginForm!:FormGroup;
   onSubmit(): void {
     console.log('submit');
    
-    const loginParams = { email: this.loginForm.value.email, password: this.loginForm.value.password,roleUser: this.loginForm.value.roleUser };
+    const loginParams = { email: this.loginForm.value.email, password: this.loginForm.value.password};
     console.log(loginParams);
     const user=this.planingService.login(loginParams);
 

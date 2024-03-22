@@ -21,11 +21,11 @@ export class PlaningService {
   constructor(private httpClient: HttpClient) { }
   
 
-  public login(login:{ email: string; password: string;roleUser: string }): Observable<any>
+  public login(login:{ email: string; password: string; }): Observable<any>
   {
 
 
-  return this.httpClient.post<Manager>(`${this.urlApi}/student/login`,login,this.httpOptions);
+  return this.httpClient.post<Manager>(`${this.urlApi}/login`,login,this.httpOptions);
 
   }
 
