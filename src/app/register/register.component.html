@@ -11,26 +11,9 @@
               <form class="register-form" [formGroup]="registerForm">
                 <div class="row">
                   <div class="col-lg-8 mx-auto">
-                    <div class="input-material-group mb-3">
-                        <select formControlName="role" id="role">
-                           <option [ngValue]="null" >Select user</option>
-                           <option  value="student" (click)="able('student')">Etudiant</option>
-                           <option  value="teacher" (click)="able('teacher')">Enseignant</option>
-                           <option  value="manager" (click)="able('')">Responsable</option>
-                        </select>
-                  </div>
-                  <div class="input-material-group mb-3" *ngIf="disabStud">
-                    <select formControlName="speciality" id="speciality">
-                       <option [ngValue]="null" >Selectionné specialité</option>
-                       <option *ngFor="let speciality of specialities"  value="{{speciality.specialityId}}" >{{speciality.name}}</option>
-                    </select>
-              </div>
-              <div class="input-material-group mb-3" *ngIf="disabTeach">
-                <select formControlName="matterId" id="matter">
-                   <option [ngValue]="null" >Selectionné matiére</option>
-                   <option *ngFor="let m of matters"  value="{{m.matterId}}" >{{m.name}}</option>
-                </select>
-          </div>
+                  
+                 
+              
                     <div class="input-material-group mb-3">
                       <input class="input-material" type="text" formControlName="firstname" required data-validate-field="registerUsername">
                       <label class="label-material" for="register-username">firstname                </label>

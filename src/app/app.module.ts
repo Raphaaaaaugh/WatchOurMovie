@@ -9,16 +9,14 @@ import { CalendarDateFormatter, CalendarModule, CalendarNativeDateFormatter, Dat
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { FormsModule,ReactiveFormsModule } from "@angular/forms";
 import { HomeComponent } from './home/home.component';
-import { CalendrierComponent } from './calendrier/calendrier.component';
+
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { FlatpickrModule } from 'angularx-flatpickr';
 import { RegisterComponent } from './register/register.component';
-import { DisponibilityComponent } from './disponibility/disponibility.component';
-import { ListDispoComponent } from './list-dispo/list-dispo.component';
-import { SpecialityComponent } from './speciality/speciality.component';
-import { MatterComponent } from './matter/matter.component';
-import { AddMatterComponent } from './add-matter/add-matter.component';
+
+
+
 
 
 class CustomDateFormatter extends CalendarNativeDateFormatter {
@@ -43,13 +41,11 @@ class CustomDateFormatter extends CalendarNativeDateFormatter {
     AppComponent,
     LoginComponent,
     HomeComponent,
-    CalendrierComponent,
+
     RegisterComponent,
-    DisponibilityComponent,
-    ListDispoComponent,
-    SpecialityComponent,
-    MatterComponent,
-    AddMatterComponent
+
+
+
   ],
   imports: [
     BrowserModule,
