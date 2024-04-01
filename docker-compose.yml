@@ -18,6 +18,19 @@ services:
       - MYSQL_PASSWORD=root
       - MYSQL_DB=WOM
 
+  engine:
+    build: ./engine
+    links:
+      - db
+      - nginx-proxy
+    ports:
+      - "8001:8001"
+    depends_on:
+      - db
+      - nginx-proxy
+    networks:
+      - mynet
+
   db:
     build: ./db
     ports:
