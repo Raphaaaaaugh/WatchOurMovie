@@ -6,6 +6,10 @@ import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 
 import { RegisterComponent } from './register/register.component';
+import { MoviesComponent } from './movie/movies/movies.component';
+import { GenreMovieComponent } from './movie/genre-movie/genre-movie.component';
+import { MovieComponent } from './movie/movie/movie.component';
+import { TopRatedComponent } from './movie/top-rated/top-rated.component';
 
 
 const routes: Routes = [
@@ -18,6 +22,18 @@ const routes: Routes = [
   },
   {
     path:'home', component :HomeComponent
+  },
+  {
+    path:'movie', component :MoviesComponent
+  },
+  {
+    path:'movie/movie_genre/:genre_id', component :GenreMovieComponent
+  },
+  {
+    path:'movie/:movie_id', component :MovieComponent
+  },
+  {
+    path:'movies/topRated', component :TopRatedComponent
   },
   {
     path:'', component :HomeComponent

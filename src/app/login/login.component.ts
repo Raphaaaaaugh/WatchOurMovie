@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { PlaningService } from '../service/planing.service';
+import { AuthService } from '../service/auth.service';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -15,7 +15,7 @@ loginForm!:FormGroup;
 
 
 
-  constructor(private planingService: PlaningService,private router: Router,private form: FormBuilder,) { 
+  constructor(private userService: AuthService,private router: Router,private form: FormBuilder,) { 
    
   }
 
@@ -34,9 +34,9 @@ loginForm!:FormGroup;
    
     const loginParams = { email: this.loginForm.value.email, password: this.loginForm.value.password};
     console.log(loginParams);
-    const user=this.planingService.login(loginParams);
+    const user=this.userService.login(loginParams);
 
-      user.subscribe(user => {
+   
         
         if (user) {
           sessionStorage.setItem('user', JSON.stringify(user));
@@ -49,11 +49,7 @@ loginForm!:FormGroup;
       
         }else Swal.fire('echec Connexion ', 'password ou password incorrect', 'error');
        
-      }, (err: any) => {
-          console.error(err);
-          this.router.navigate(['/login']);
-        Swal.fire('echec Connexion ', 'erreur lors de l\' execution de la requete', 'error');
-      });
+    
     
     
   }

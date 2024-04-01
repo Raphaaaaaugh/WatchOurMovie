@@ -3,3 +3,6 @@
 @import '~bootstrap/dist/css/bootstrap.min.css';
 @import "~bootstrap-icons/font/bootstrap-icons.css";
 @import "../node_modules/angular-calendar/css/angular-calendar.css";
+ section{
+    margin-left: 07em;
+ }

@@ -1,15 +1,6 @@
 import { Time } from "@angular/common";
+import { HttpHeaders } from "@angular/common/http";
 
-export interface Manager{
-    managerId:number
-    firstName: string,
-    email: string, 
-    phone: number,
-    lastName:string, 
-    password:string, 
-    role:string,
-			 
-}
 
 
 export interface User{
@@ -17,50 +8,34 @@ export interface User{
     firstName: string,
     email: string, 
     phone: number;
-    lastName:string; 
+    name:string; 
     password:string; 
     role:string;
-    speciality:{specialityId:number};
-    schoolYear:number
-			 
+		 
+}
+
+export const  apiUrl="http://localhost:8000" 
+
+export interface Movie{
+    title: string
+    release_date: string
+    original_title: string
+    original_language: string
+    backdrop_path: string
+    id: number
 }
 
 
+export const  httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "*",
+        "Access-Control-Allow-Headers": "'Access-Control-Allow-Headers: Origin, Content-Type'",
+    })
+  };
 
 
-export interface Room{
-    roomId:number;
-    name:string;
-    capacity:number;
-    state:boolean;
-}
-
-
-export interface Disponibility{
-    dispoId:number;
-    timeD:string;
-    timeF:string;
-    day:string;
-    teacher:{
-        teacherId:number;
-    };
-    state:boolean;
-}
-
-export interface Event{
-    eventId:number;
-    timeD:string;
-    timeF:string;
-    day:string;
-    title:string;
-    speciality:{
-        specialityId:number;
-    };
-    teacher:{
-        teacherId:number;
-    };
-    nameRoom:string;
-}
 
 
 

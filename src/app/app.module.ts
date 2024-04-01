@@ -14,6 +14,10 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { FlatpickrModule } from 'angularx-flatpickr';
 import { RegisterComponent } from './register/register.component';
+import { MoviesComponent } from './movie/movies/movies.component';
+import { GenreMovieComponent } from './movie/genre-movie/genre-movie.component';
+import { TopRatedComponent } from './movie/top-rated/top-rated.component';
+import { MovieComponent } from './movie/movie/movie.component';
 
 
 
@@ -43,6 +47,10 @@ class CustomDateFormatter extends CalendarNativeDateFormatter {
     HomeComponent,
 
     RegisterComponent,
+     MoviesComponent,
+     GenreMovieComponent,
+     TopRatedComponent,
+     MovieComponent,
 
 
 
