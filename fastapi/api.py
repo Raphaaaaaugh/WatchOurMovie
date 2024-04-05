@@ -66,10 +66,11 @@ async def get_movie_details(movie_id: int):
     return response.json()
 
 
+
 @app.get("/movie_genre/{genre_id}")
-async def requestFilmByGenreId(genre_id: int):
+async def request_film_by_genre_id(genre_id: int):
     url = f"{base_url}/3/discover/movie?api_key={api_key}&with_genres={genre_id}"
-    movies_titles = []
+    fetched_movies = []
     page = 1  # Start with page 1
     while page < 10:
         # Append the page parameter to the URL
@@ -80,8 +81,7 @@ async def requestFilmByGenreId(genre_id: int):
             # Process the response (e.g., convert it to JSON)
             movies_data = response.json()
             for movie in movies_data['results']:
-                print(movie['title'])
-                movies_titles.append(movie['title'])
+                fetched_movies.append(movie['id'])
             # Check if there are more pages to fetch
             if page < movies_data['total_pages']:
                 page += 1  # Move to the next page
@@ -90,11 +90,11 @@ async def requestFilmByGenreId(genre_id: int):
         else:
             print(f"Error: {response.status_code}")
             break  # Stop fetching if there's an error
-    return movies_titles
+    return fetched_movies
 
 
 @app.get("/top_rated")
-async def requestTopRatedFilms():
+async def request_top_rated_films():
     url = f"{base_url}/3/discover/movie?api_key={api_key}&sort_by=vote_average.desc&vote_count.gte=400"
     movies = []
     page = 1  # Start with page 1
@@ -120,7 +120,7 @@ async def requestTopRatedFilms():
 
 
 @app.get("/engine/")
-async def computeMovies(list_users: List[str] = Query(...)):
+async def compute_movies(list_users: List[str] = Query(...)):
     # Request must look like http://localhost:8000/engine/?list_users=John&list_users=Jane
     config = mysql.connector.connect(
         host="db",
@@ -144,7 +144,7 @@ async def computeMovies(list_users: List[str] = Query(...)):
         cursor.close()
     config.close()
     # Get the top 1000 movies by vote_average (neutral quality standard)
-    top_movies = await requestTopRatedFilms()
+    top_movies = await request_top_rated_films()
     # Send the data to the engine
     data = {
         "seen_movies": seen_movies,
