@@ -10,6 +10,7 @@ import { MoviesComponent } from './movie/movies/movies.component';
 import { GenreMovieComponent } from './movie/genre-movie/genre-movie.component';
 import { MovieComponent } from './movie/movie/movie.component';
 import { TopRatedComponent } from './movie/top-rated/top-rated.component';
+import { AddMovieComponent } from './movie/add-movie/add-movie.component';
 
 
 const routes: Routes = [
@@ -27,13 +28,16 @@ const routes: Routes = [
     path:'movie', component :MoviesComponent
   },
   {
-    path:'movie/movie_genre/:genre_id', component :GenreMovieComponent
+    path:'movies/movie_genre/:genre_id', component :GenreMovieComponent
   },
   {
     path:'movie/:movie_id', component :MovieComponent
   },
   {
     path:'movies/topRated', component :TopRatedComponent
+  },
+  {
+    path:'movies/add', component :AddMovieComponent
   },
   {
     path:'', component :HomeComponent

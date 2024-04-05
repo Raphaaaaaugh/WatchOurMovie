@@ -18,6 +18,9 @@ import { MoviesComponent } from './movie/movies/movies.component';
 import { GenreMovieComponent } from './movie/genre-movie/genre-movie.component';
 import { TopRatedComponent } from './movie/top-rated/top-rated.component';
 import { MovieComponent } from './movie/movie/movie.component';
+import { AddMovieComponent } from './movie/add-movie/add-movie.component';
+import { EditMovieComponent } from './movie/edit-movie/edit-movie.component';
+import { HeaderComponent } from './movie/header/header.component';
 
 
 
@@ -51,6 +54,9 @@ class CustomDateFormatter extends CalendarNativeDateFormatter {
      GenreMovieComponent,
      TopRatedComponent,
      MovieComponent,
+     AddMovieComponent,
+     EditMovieComponent,
+     HeaderComponent,
 
 
 

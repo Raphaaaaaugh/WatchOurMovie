@@ -66,9 +66,7 @@ onSubmit(): void {
           sessionStorage.setItem('user', JSON.stringify(user));
        sessionStorage.setItem('role', user.role);
        console.log(sessionStorage.getItem('user'))
-        this.router.navigate(['/home']).then(()=>{
-          window.location.reload();
-        });
+        this.router.navigateByUrl('/home');
         Swal.fire('Enregistrement réussie', 'Vous êtes à présent enregistré', 'success');
       
         }else Swal.fire('echec Enregistrement ', 'veuillez verifier les champs renseignés', 'error');

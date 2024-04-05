@@ -42,9 +42,7 @@ loginForm!:FormGroup;
           sessionStorage.setItem('user', JSON.stringify(user));
        sessionStorage.setItem('role', user.role);
        console.log(sessionStorage.getItem('user'))
-        this.router.navigate(['/home']).then(()=>{
-          window.location.reload();
-        });
+        this.router.navigateByUrl('/home');
         Swal.fire('Connexion réussie', 'Vous êtes à présent connecté', 'success');
       
         }else Swal.fire('echec Connexion ', 'password ou password incorrect', 'error');
@@ -55,7 +53,7 @@ loginForm!:FormGroup;
   }
 
   register(){
-    this.router.navigate(['/register']);
+    this.router.navigateByUrl('/register');
   }
 
 }

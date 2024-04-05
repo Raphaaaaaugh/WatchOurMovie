@@ -15,6 +15,7 @@ export class TopRatedComponent implements OnInit {
   constructor(private movieServie: MoviesService) {
     
     this.topRated=this.movieServie.topRated();
+    console.log(this.topRated)
    }
 
   ngOnInit(): void {

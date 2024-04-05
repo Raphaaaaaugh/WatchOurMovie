@@ -14,7 +14,7 @@ export interface User{
 		 
 }
 
-export const  apiUrl="http://localhost:8000" 
+export const  apiUrl="http://0.0.0.0:8000" 
 
 export interface Movie{
     title: string
@@ -23,6 +23,11 @@ export interface Movie{
     original_language: string
     backdrop_path: string
     id: number
+    adult? : boolean 
+    homepage?: string
+    popularity?: number
+    revenue?: number
+    runtime?: number
 }
 
 
