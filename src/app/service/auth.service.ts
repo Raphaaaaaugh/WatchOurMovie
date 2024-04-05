@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import {  User, apiUrl,httpOptions } from 'src/app/type/types';
+import {  User, Users, apiUrl,httpOptions } from 'src/app/type/types';
 
 
 @Injectable({
@@ -27,7 +27,7 @@ export class AuthService {
       role: ''
     };
 
-    this.httpClient.get<User>(`${apiUrl}/infos_user/${login.email}`,httpOptions).subscribe(
+    this.httpClient.get<User>(`${apiUrl}/infos_user/${login.email}`).subscribe(
 
      { 
       
@@ -46,7 +46,7 @@ export class AuthService {
 
 
   
-  public register(User: User): User
+  public register(users: Users): User
   {
 
     let user:User={
@@ -58,12 +58,14 @@ export class AuthService {
       password: '',
       role: ''
     };
-
-    this.httpClient.post<User>(`${apiUrl}/create_user/`,User,httpOptions).subscribe(
+console.log(users)
+    this.httpClient.post<User>(`${apiUrl}/create_user/`,users).subscribe(
 
      { 
       
-      next: users => user=users,
+      next: users => {
+        console.log(users)
+        user=users},
       error: err => console.error('Quelque chose s\'est mal passé :', err),
       complete: () => console.log('L\'histoire est terminée !')
      

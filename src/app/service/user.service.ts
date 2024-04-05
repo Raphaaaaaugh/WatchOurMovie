@@ -23,7 +23,7 @@ export class UserService {
     let user:User[]=[]
     
 
-    this.httpClient.get<User>(`${apiUrl}/user/`,httpOptions).subscribe(
+    this.httpClient.get<User>(`${apiUrl}/user/`).subscribe(
 
      { 
       
@@ -55,7 +55,7 @@ export class UserService {
       role: ''
     };
 
-    this.httpClient.get<User>(`${apiUrl}/user/${id}`,httpOptions).subscribe(
+    this.httpClient.get<User>(`${apiUrl}/user/${id}`).subscribe(
 
      { 
       

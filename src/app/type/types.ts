@@ -14,6 +14,17 @@ export interface User{
 		 
 }
 
+export interface Users{
+ 
+  firstname: string,
+  name:string; 
+  password:string; 
+
+   
+}
+
+
+
 export const  apiUrl="http://0.0.0.0:8000" 
 
 export interface Movie{

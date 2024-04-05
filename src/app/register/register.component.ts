@@ -3,7 +3,7 @@ import { AuthService } from '../service/auth.service';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import {  User } from '../type/types';
+import {  User, Users } from '../type/types';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -57,8 +57,18 @@ onSubmit(): void {
       name: this.registerForm.value.name,
       role: 'user'
     };
-    console.log(userParams);
-    const user=this.userService.register(userParams);
+
+    const userParam:Users = {
+    
+      password: this.registerForm.value.password,
+
+      firstname: this.registerForm.value.firstname,
+
+      name: this.registerForm.value.name,
+
+    };
+    console.log(userParam);
+    const user=this.userService.register(userParam);
 
     
         
