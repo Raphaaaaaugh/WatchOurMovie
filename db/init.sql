@@ -26,7 +26,7 @@ CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     firstname VARCHAR(255) NOT NULL,
     name VARCHAR(255) NOT NULL,
-    password VARCHAR(20) NOT NULL,
+    password VARCHAR(255) NOT NULL,
     secret_question TEXT,
     secret_answer TEXT,
     -- seen_movies_list TEXT,

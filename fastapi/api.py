@@ -6,6 +6,7 @@ import mysql.connector
 from pydantic import BaseModel
 from typing import Optional
 from typing import List
+from passlib.hash import bcrypt
 
 app = FastAPI()
 
@@ -52,6 +53,68 @@ def fetch_user(firstname: str):
     config.close()
     return results
 
+
+
+# Endpoint pour l'authentification d'un utilisateur
+@app.post('/login')
+def login(login_str: str, password_str: str):
+    try:
+        # Connexion à la base de données
+        db_config = {
+            'host': 'db',
+            'user': 'api',
+            'password': 'root',
+            'database': 'WOM'
+        }
+        db_connection = mysql.connector.connect(**db_config)
+        db_cursor = db_connection.cursor(dictionary=True)
+
+        # Récupérer le mot de passe haché depuis la base de données
+        db_cursor.execute('SELECT password FROM users WHERE name = %s', (login_str,))
+        user = db_cursor.fetchone()
+
+        if user and bcrypt.verify(password_str, user['password']):
+            return {'message': 'Authentification réussie'}
+        else:
+            raise HTTPException(status_code=401, detail='Login ou mot de passe incorrect')
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+    finally:
+        db_cursor.close()
+        db_connection.close()
+
+# Endpoint pour l'inscription d'un nouvel utilisateur
+@app.post('/register')
+def register(login_str: str, password_str: str, firstname: str):
+    try:
+        # Connexion à la base de données
+        db_config = {
+            'host': 'db',
+            'user': 'api',
+            'password': 'root',
+            'database': 'WOM'
+        }
+        db_connection = mysql.connector.connect(**db_config)
+        db_cursor = db_connection.cursor()
+
+        # Hashage et salage du mot de passe pour obtenir un hash unique
+        hashed_password = bcrypt.hash(password_str)
+
+        # Insérer les données de l'utilisateur dans la base de données avec le mot de passe haché et salé
+        db_cursor.execute('INSERT INTO users (name, firstname, password, like_adult, favorite_genres, favorite_runtime, favorite_period) VALUES (%s, %s, %s, 0, "", -1, "")',
+                           (login_str, firstname, hashed_password))
+        db_connection.commit()
+
+        return {'message': 'Utilisateur enregistré avec succès'}
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+    finally:
+        db_cursor.close()
+        db_connection.close()
 
 @app.get("/movie_id/{movie_id}")
 async def get_movie_details(movie_id: int):
