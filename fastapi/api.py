@@ -6,9 +6,22 @@ import mysql.connector
 from pydantic import BaseModel
 from typing import Optional
 from typing import List
+<<<<<<< HEAD
 from passlib.hash import bcrypt
+=======
+from fastapi.middleware.cors import CORSMiddleware
+
+
+>>>>>>> 436c0e73ba58d5fb7fb069cdf8a28c5e2c20b633
 
 app = FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[""],
+    allow_credentials=True,
+    allow_methods=[""],
+    allow_headers=["*"],
+)
 
 # Define the base URL and API key
 base_url = "http://nginx-proxy:8081"
