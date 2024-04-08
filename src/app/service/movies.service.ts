@@ -1,42 +1,27 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {  Movie,apiUrl,httpOptions } from 'src/app/type/types';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MoviesService {
 
- 
+ topRatedMovie: Array<Movie>=[];
   
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient) { 
+  this.topRated()
+
+  }
   
 
-  public movieGenre(genre_id: number): any[]
+  public movieGenre(genre_id: number): Observable<number[]>
   {
 
-    let movies:Movie[]=[]
 
-    this.httpClient.get<any[]>(`${apiUrl}/movie_genre/${genre_id}`).subscribe(
-
-     { 
-      
-      next: movie => {
-        console.log(movie)
-        movie.forEach((movie) => {
-          movies.push(this.movieById(movie))
-        })
-       },
-      error: err => console.error('Quelque chose s\'est mal passé :', err),
-      complete: () => console.log('L\'histoire est terminée !')
-     
-   }
-       
-    );
-
-  return movies;
-
+   return  this.httpClient.get<any[]>(`${apiUrl}/movie_genre/${genre_id}`)
 
 
   }
@@ -60,7 +45,7 @@ export class MoviesService {
      { 
       
       next: movies => {
-        console.log(movies);
+ 
         movie.title=movies.title
        
         movie.release_date=movies.release_date,
@@ -89,31 +74,10 @@ export class MoviesService {
 
 
   
-  public topRated(): Movie[]
-  {
-
-
-    let movies:Movie[]=[]
-
-    this.httpClient.get<Movie[]>(`${apiUrl}/top_rated/`).subscribe(
-
-     { 
-      
-      next: movie => {
-        console.log(movie)
-        movie.forEach((movie) => {
-          movies.push(movie)
-        })
-       },
-      error: err => console.error('Quelque chose s\'est mal passé :', err),
-      complete: () => console.log('L\'histoire est terminée !')
-     
-   }
-       
-    );
-
-  return movies;
-
+     topRated(): Observable<Movie[]>
+{
+    
+    return    this.httpClient.get<Movie[]>(`${apiUrl}/top_rated/`);
   }
 
 
@@ -129,7 +93,7 @@ export class MoviesService {
      { 
       
       next: movie => {
-        console.log(movie)
+    
         movie.forEach((movie) => {
           movies.push(movie)
         })

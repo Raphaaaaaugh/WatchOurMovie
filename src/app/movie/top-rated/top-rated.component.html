@@ -1,19 +1,29 @@
 <section  >
   <div class="row">
 
- 
-  <div class="card col-md-3"  *ngFor="let movie of topRated; let i=index;">
+     
+      <div class="card col-md-3"  *ngFor="let movie of moviePage ; ">
    
 
-    <img class="card-img-top" src="https://image.tmdb.org/t/p/original{{movie.backdrop_path}}" alt="Card image of movie">
-    <div class="card-body">
-      <h5 class="card-title">{{movie.title}}</h5>
-      <p> original title : {{movie.original_title}} </p>   
-      <p> original language: {{movie.original_language}} </p> 
-      <p> release date: {{movie.release_date}} </p> 
-  <button type="button" class="btn btn-primary button" [routerLink]="['/movie/',movie.id]">détails</button>
-  
-    </div>
-  </div>
+        <img class="card-img-top" src="https://image.tmdb.org/t/p/original{{movie.backdrop_path}}" alt="Card image of movie">
+        <div class="card-body">
+          <h5 class="card-title">{{movie.title}}</h5>
+          <p> original title : {{movie.original_title}} </p>   
+          <p> original language: {{movie.original_language}} </p> 
+          <p> release date: {{movie.release_date}} </p> 
+      <button type="button" class="btn btn-primary button" [routerLink]="['/movie/',movie.id]">détails</button>
+      
+        </div>
+      </div>
+
+ 
+
 </div>
+
+<br/> 
+
+<ngb-pagination [collectionSize]="topRated.length" [pageSize]="pageSize" [(page)]="page" (pageChange)="onPageChange($event)" 
+[maxSize]="5" [rotate]="true"
+ [ellipses]="true" [boundaryLinks]="true"></ngb-pagination>
+
 </section>
