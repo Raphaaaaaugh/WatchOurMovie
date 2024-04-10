@@ -68,73 +68,6 @@ def fetch_user(firstname: str):
     return results
 
 
-
-# Endpoint pour l'authentification d'un utilisateur
-@app.post('/login')
-def login(login_data: Login):
-    try:
-        # Connexion à la base de données
-        db_config = {
-            'host': 'db',
-            'user': 'api',
-            'password': 'root',
-            'database': 'WOM'
-        }
-        db_connection = mysql.connector.connect(**db_config)
-        db_cursor = db_connection.cursor(dictionary=True)
-
-        # Récupérer le mot de passe haché depuis la base de données
-        db_cursor.execute('SELECT password FROM users WHERE name = %s', (login_data.name,))
-        user = db_cursor.fetchone()
-
-        if user and bcrypt.verify(login_data.password, user['password']):
-            return {'message': 'Authentification réussie'}
-        else:
-            raise HTTPException(status_code=401, detail='Login ou mot de passe incorrect')
-
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
-
-    finally:
-        db_cursor.close()
-        db_connection.close()
-
-# Endpoint pour l'inscription d'un nouvel utilisateur
-@app.post('/register')
-def register(user_data: User):
-    try:
-        # Connexion à la base de données
-        db_config = {
-            'host': 'db',
-            'user': 'api',
-            'password': 'root',
-            'database': 'WOM'
-        }
-        db_connection = mysql.connector.connect(**db_config)
-        db_cursor = db_connection.cursor()
-
-        db_cursor.execute('SELECT name FROM users WHERE name = %s', (user_data.name,))
-        user = db_cursor.fetchone()
-        if user:
-            raise HTTPException(status_code=401, detail='Le nom est déjà utilisé')
-
-        # Hashage et salage du mot de passe pour obtenir un hash unique
-        hashed_password = bcrypt.hash(user_data.password)
-
-        # Insérer les données de l'utilisateur dans la base de données avec le mot de passe haché et salé
-        db_cursor.execute('INSERT INTO users (name, firstname, password, like_adult, favorite_genres, favorite_runtime, favorite_period) VALUES (%s, %s, %s, 0, "", -1, "")',
-                           (user_data.name, user_data.firstname, hashed_password))
-        db_connection.commit()
-
-        return {'message': 'Utilisateur enregistré avec succès'}
-
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
-
-    finally:
-        db_cursor.close()
-        db_connection.close()
-
 @app.get("/movie_id/{movie_id}")
 async def get_movie_details(movie_id: int):
     url = f"{base_url}/3/movie/{movie_id}?api_key={api_key}"
@@ -242,25 +175,71 @@ async def compute_movies(list_users: List[str] = Query(...)):
 # POST endpoints
 
 
-@app.post("/create_user/")
-async def create_user(user: User):
-    firstname = user.firstname
-    name = user.name
-    password = user.password
-    if not firstname:
-        return {"error": "Please provide a firstname in the request body"}
-    config = mysql.connector.connect(
-        host="db",
-        user="api",
-        password="root",
-        database="WOM"
-    )
-    cursor = config.cursor(dictionary=True)
-    cursor.execute('INSERT INTO users (name, firstname, password) VALUES (%s, %s, %s)', (firstname, name, password))
-    config.commit()
-    cursor.close()
-    config.close()
-    return {"nah"}
+# Endpoint pour l'authentification d'un utilisateur
+@app.post('/login')
+def login(login_data: Login):
+    try:
+        # Connexion à la base de données
+        db_config = {
+            'host': 'db',
+            'user': 'api',
+            'password': 'root',
+            'database': 'WOM'
+        }
+        db_connection = mysql.connector.connect(**db_config)
+        db_cursor = db_connection.cursor(dictionary=True)
+
+        # Récupérer le mot de passe haché depuis la base de données
+        db_cursor.execute('SELECT password FROM users WHERE name = %s', (login_data.name,))
+        user = db_cursor.fetchone()
+
+        if user and bcrypt.verify(login_data.password, user['password']):
+            return {'message': 'Authentification réussie'}
+        else:
+            raise HTTPException(status_code=401, detail='Login ou mot de passe incorrect')
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+    finally:
+        db_cursor.close()
+        db_connection.close()
+
+# Endpoint pour l'inscription d'un nouvel utilisateur
+@app.post('/register')
+def register(user_data: User):
+    try:
+        # Connexion à la base de données
+        db_config = {
+            'host': 'db',
+            'user': 'api',
+            'password': 'root',
+            'database': 'WOM'
+        }
+        db_connection = mysql.connector.connect(**db_config)
+        db_cursor = db_connection.cursor()
+
+        db_cursor.execute('SELECT name FROM users WHERE name = %s', (user_data.name,))
+        user = db_cursor.fetchone()
+        if user:
+            raise HTTPException(status_code=401, detail='Le nom est déjà utilisé')
+
+        # Hashage et salage du mot de passe pour obtenir un hash unique
+        hashed_password = bcrypt.hash(user_data.password)
+
+        # Insérer les données de l'utilisateur dans la base de données avec le mot de passe haché et salé
+        db_cursor.execute('INSERT INTO users (name, firstname, password, like_adult, favorite_genres, favorite_runtime, favorite_period) VALUES (%s, %s, %s, 0, "", -1, "")',
+                           (user_data.name, user_data.firstname, hashed_password))
+        db_connection.commit()
+
+        return {'message': 'Utilisateur enregistré avec succès'}
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+    finally:
+        db_cursor.close()
+        db_connection.close()
 
 
 @app.post("/add_film/")
