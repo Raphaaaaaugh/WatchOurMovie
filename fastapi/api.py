@@ -171,6 +171,36 @@ async def compute_movies(list_users: List[str] = Query(...)):
     return json.loads(response.text)
 
 
+# Endpoint pour l'authentification d'un utilisateur
+@app.get('/user_stats')
+def user_stats(login_data: Login):
+    try:
+        # Connexion à la base de données
+        db_config = {
+            'host': 'db',
+            'user': 'api',
+            'password': 'root',
+            'database': 'WOM'
+        }
+        db_connection = mysql.connector.connect(**db_config)
+        db_cursor = db_connection.cursor(dictionary=True)
+
+        # Récupérer le mot de passe haché depuis la base de données
+        db_cursor.execute('SELECT id, name, firstname, password, like_adult, favorite_genres, favorite_runtime, favorite_period FROM users WHERE name = %s', (login_data.name,))
+        user_data = db_cursor.fetchone()
+
+        if user_data and bcrypt.verify(login_data.password, user_data['password']):
+            return user_data
+        else:
+            raise HTTPException(status_code=401, detail='Utilisateur introuvable dans la base. Vérifier les crédits.')
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+    finally:
+        db_cursor.close()
+        db_connection.close()
+
 #---------------------------------------------------------------------------------------------
 # POST endpoints
 
