@@ -52,14 +52,14 @@ onSubmit(): void {
       email: this.registerForm.value.email, 
       password: this.registerForm.value.password,
       userId: 0,
-      firstName: this.registerForm.value.firstname,
+      firstname: this.registerForm.value.firstname,
       phone: this.registerForm.value.phone,
       name: this.registerForm.value.name,
       role: 'user'
     };
 
     const userParam:Users = {
-    
+      id:0,
       password: this.registerForm.value.password,
 
       firstname: this.registerForm.value.firstname,

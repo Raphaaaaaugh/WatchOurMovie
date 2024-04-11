@@ -32,7 +32,7 @@ loginForm!:FormGroup;
   onSubmit(): void {
     console.log('submit');
    
-    const loginParams = { email: this.loginForm.value.email, password: this.loginForm.value.password};
+    const loginParams = { name: this.loginForm.value.email, password: this.loginForm.value.password};
     console.log(loginParams);
     const user=this.userService.login(loginParams);
 

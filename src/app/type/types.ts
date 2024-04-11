@@ -5,7 +5,7 @@ import { HttpHeaders } from "@angular/common/http";
 
 export interface User{
     userId:number
-    firstName: string,
+    firstname: string,
     email: string, 
     phone: number;
     name:string; 
@@ -15,7 +15,7 @@ export interface User{
 }
 
 export interface Users{
- 
+  id:number,
   firstname: string,
   name:string; 
   password:string; 
@@ -51,7 +51,10 @@ export const  httpOptions = {
     })
   };
 
-
+  export function logout(){
+    sessionStorage.clear();
+    window.location.reload();
+    }
 
 
 

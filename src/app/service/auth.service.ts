@@ -14,12 +14,12 @@ export class AuthService {
   constructor(private httpClient: HttpClient) { }
   
 
-  public login(login:{ email: string; password: string; }): User
+  public login(login:{ name: string; password: string; }): User
   {
 
     let user:User={
       userId: 0,
-      firstName: '',
+      firstname: '',
       email: '',
       phone: 0,
       name: '',
@@ -27,7 +27,7 @@ export class AuthService {
       role: ''
     };
 
-    this.httpClient.get<User>(`${apiUrl}/infos_user/${login.email}`).subscribe(
+    this.httpClient.post<User>(`${apiUrl}/login/`,login).subscribe(
 
      { 
       
@@ -51,7 +51,7 @@ export class AuthService {
 
     let user:User={
       userId: 0,
-      firstName: '',
+      firstname: '',
       email: '',
       phone: 0,
       name: '',
@@ -59,7 +59,7 @@ export class AuthService {
       role: ''
     };
 console.log(users)
-    this.httpClient.post<User>(`${apiUrl}/create_user/`,users).subscribe(
+    this.httpClient.post<User>(`${apiUrl}/register/`,users).subscribe(
 
      { 
       

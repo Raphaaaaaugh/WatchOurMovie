@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import {  Movie,apiUrl,httpOptions } from 'src/app/type/types';
+import {  Movie,User,Users,apiUrl,httpOptions } from 'src/app/type/types';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -80,6 +80,13 @@ export class MoviesService {
     return    this.httpClient.get<Movie[]>(`${apiUrl}/top_rated/`);
   }
 
+
+  getMovieToSee(user: Users[]): Observable<Movie[]>
+  {
+      
+      return    this.httpClient.post<Movie[]>(`${apiUrl}/engine/`,user);
+    }
+  
 
 
   public AllMovies(): Movie[]
