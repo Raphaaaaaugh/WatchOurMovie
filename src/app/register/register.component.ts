@@ -68,20 +68,31 @@ onSubmit(): void {
 
     };
     console.log(userParam);
-    const user=this.userService.register(userParam);
+    this.userService.register(userParam).subscribe(
 
-    
-        
-        if (user) {
-          sessionStorage.setItem('user', JSON.stringify(user));
-       sessionStorage.setItem('role', user.role);
-       console.log(sessionStorage.getItem('user'))
-        this.router.navigateByUrl('/home');
-        Swal.fire('Enregistrement réussie', 'Vous êtes à présent enregistré', 'success');
-      
-        }else Swal.fire('echec Enregistrement ', 'veuillez verifier les champs renseignés', 'error');
+      { 
        
-     
+       next: response => {
+         
+        sessionStorage.setItem('user', JSON.stringify(userParam));
+        const token =response.token
+        if (token) 
+          sessionStorage.setItem('token', token);
+        
+        const user=sessionStorage.getItem('user');
+        console.log(user)
+        Swal.fire('Enregistrement réussie', 'Vous êtes à présent connecté', 'success');
+        this.router.navigateByUrl('/home');
+       },
+       error: err => {
+        Swal.fire('echec Enregistrement ', 'Veuillez remplire tous les champs', 'error');
+        console.error('Quelque chose s\'est mal passé :', err)
+      },
+       complete: () => console.log('L\'histoire est terminée !')
+      
+    }
+        
+     );
     
 
  }

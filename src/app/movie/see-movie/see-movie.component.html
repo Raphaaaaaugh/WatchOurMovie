@@ -1,4 +1,35 @@
-<p>see-movie works!</p>
+<section>
+<input type="text" (keyup)="filterItems($event.target)" [(ngModel)]="searchTerm" placeholder="Search...">
+
+    <div class="row">
+       
+            <div class="col-md-2" *ngFor="let item of filteredItems" [ngStyle]="{'background-color': item.color}" (click)="select(item.name)">
+                <ul>
+                <li >{{ item.name }}</li>
+            </ul>
+            </div>
+        
+        
+    </div>
+</section>
+
+
+    <section *ngIf="userSelected.size>1">
+        <h3> les utilisateurs selectionnés</h3>
+        <div class="row">
+       
+            <div class="col-md-2"  *ngFor="let key of  userSelected.keys()"  [ngStyle]="{'background-color': userSelected.get(key)}" (click)="select(key)">
+                <ul *ngIf="userSelected.get(key)">
+                <li >{{ key}}</li>
+            </ul>
+            </div>
+        
+        
+    </div>
+    <button  (click)="submit()" class="btn btn-primary">envoyer</button>
+    </section>
+
+
 <section  >
     <div class="row">
   

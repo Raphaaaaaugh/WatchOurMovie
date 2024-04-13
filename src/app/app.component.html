@@ -98,11 +98,8 @@
             </li>
           -->
             <!-- Languages dropdown    -->
-            <li class="nav-item dropdown"><a class="nav-link text-white dropdown-toggle d-flex align-items-center" id="languages" href="#" data-bs-toggle="dropdown" aria-expanded="false"><img class="me-2" src="../assets/img/flags/16/GB.png" alt="English"><span class="d-none d-sm-inline-block">English</span></a>
-              <ul class="dropdown-menu dropdown-menu-end mt-3 shadow-sm" aria-labelledby="languages">
-                <li><a class="dropdown-item" rel="nofollow" href="#"> <img class="me-2" src="../assets/img/flags/16/DE.png" alt="English"><span class="text-xs text-gray-700">German</span></a></li>
-                <li><a class="dropdown-item" rel="nofollow" href="#"> <img class="me-2" src="../assets/img/flags/16/FR.png" alt="English"><span class="text-xs text-gray-700">French                                         </span></a></li>
-              </ul>
+            <li class="nav-item dropdown"><a class="nav-link text-white dropdown-toggle d-flex align-items-center" id="languages" href="#" data-bs-toggle="dropdown" aria-expanded="false"></a>
+             
             </li>
             <!-- Logout    -->
             <li class="nav-item"><a class="nav-link text-white"   > <span class="d-none d-sm-inline" (click)="logout()">Logout</span>
@@ -123,8 +120,8 @@
       <!-- Sidebar Header-->
       <div class="sidebar-header d-flex align-items-center py-4 px-3"><img class="avatar shadow-0 img-fluid rounded-circle" src="assets/img/mockup5.jpg" alt="...">
         <div class="ms-3 title">
-          <h1 class="h4 mb-2" *ngIf="user">{{userObject.firstName}}  {{userObject.lastName}}</h1>
-          <p class="text-sm text-gray-500 fw-light mb-0 lh-1" >  {{role}}</p>
+          <h1 class="h4 mb-2" *ngIf="user">{{userObject.firstname}}  {{userObject.name}}</h1>
+         
         </div>
       </div>
       <!-- Sidebar Navidation Menus--><span class="text-uppercase text-gray-400 text-xs letter-spacing-0 mx-3 px-2 heading">Main</span>

@@ -9,10 +9,11 @@ import { Component } from '@angular/core';
 export class AppComponent {
   title = 'planing-lib';
 
-  role=sessionStorage.getItem("role");
   
-    user=sessionStorage.getItem('user');
-    userObject=this.user ? JSON.parse(this.user) :""
+  
+  user=sessionStorage.getItem('user');
+  
+  userObject=this.user ? JSON.parse(this.user) :""
     
 
   

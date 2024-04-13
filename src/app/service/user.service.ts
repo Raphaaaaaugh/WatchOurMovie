@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {  User, apiUrl,httpOptions } from 'src/app/type/types';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -15,27 +16,10 @@ export class UserService {
   constructor(private httpClient: HttpClient) { }
   
 
-  public getUser(): User[]
+  public getUser():  Observable<User[]>
   {
 
-
-  
-    let user:User[]=[]
-    
-
-    this.httpClient.get<User>(`${apiUrl}/user/`).subscribe(
-
-     { 
-      
-      next: users => user.push(users),
-      error: err => console.error('Quelque chose s\'est mal passé :', err),
-      complete: () => console.log('L\'histoire est terminée !')
-     
-   }
-       
-    );
-
-  return user;
+   return this.httpClient.get<User[]>(`${apiUrl}/get_users/`);
 
   }
 
@@ -47,7 +31,7 @@ export class UserService {
     
     let user:User={
       userId: 0,
-      firstName: '',
+      firstname: '',
       email: '',
       phone: 0,
       name: '',

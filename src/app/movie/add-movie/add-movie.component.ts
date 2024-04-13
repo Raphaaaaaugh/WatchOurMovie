@@ -21,7 +21,11 @@ export class AddMovieComponent implements OnInit {
   
   
   constructor(private movieService: MoviesService,private router: Router,private form: FormBuilder) { 
-   
+   const token =  sessionStorage.getItem('token');
+if (!token) {
+  this.router.navigateByUrl('/home');
+  Swal.fire('echec Connexion ', 'veuillez vous connecter', 'error');
+}
   }
   
   ngOnInit(): void {

@@ -34,20 +34,32 @@ loginForm!:FormGroup;
    
     const loginParams = { name: this.loginForm.value.email, password: this.loginForm.value.password};
     console.log(loginParams);
-    const user=this.userService.login(loginParams);
+    this.userService.login(loginParams).subscribe(
+
+      { 
+       
+       next: response => {
+         
+        sessionStorage.setItem('user', JSON.stringify(loginParams));
+        const token =response.token
+        if (token) 
+          sessionStorage.setItem('token', token);
+        
+          Swal.fire('Connexion réussie', 'Vous êtes à présent connecté', 'success');
+          this.router.navigateByUrl('/home');
+       },
+       error: err => {
+        Swal.fire('echec Connexion ', 'password ou password incorrect', 'error');
+        console.error('Quelque chose s\'est mal passé :', err)
+      },
+       complete: () => console.log('L\'histoire est terminée !')
+      
+    }
+        
+     );
 
    
-        
-        if (user) {
-          sessionStorage.setItem('user', JSON.stringify(user));
-       sessionStorage.setItem('role', user.role);
-       console.log(sessionStorage.getItem('user'))
-        this.router.navigateByUrl('/home');
-        Swal.fire('Connexion réussie', 'Vous êtes à présent connecté', 'success');
-      
-        }else Swal.fire('echec Connexion ', 'password ou password incorrect', 'error');
-       
-    
+   
     
     
   }

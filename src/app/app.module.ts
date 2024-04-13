@@ -21,7 +21,6 @@ import { MovieComponent } from './movie/movie/movie.component';
 import { AddMovieComponent } from './movie/add-movie/add-movie.component';
 import { EditMovieComponent } from './movie/edit-movie/edit-movie.component';
 import { HeaderComponent } from './movie/header/header.component';
-import { EngieComponent } from './movie/engie/engie.component';
 import { SeeMovieComponent } from './movie/see-movie/see-movie.component';
 
 
@@ -59,7 +58,6 @@ class CustomDateFormatter extends CalendarNativeDateFormatter {
      AddMovieComponent,
      EditMovieComponent,
      HeaderComponent,
-     EngieComponent,
      SeeMovieComponent,
 
 

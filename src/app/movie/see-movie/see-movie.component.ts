@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { MoviesService } from 'src/app/service/movies.service';
+import { UserService } from 'src/app/service/user.service';
 import { Movie, User, Users } from 'src/app/type/types';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-see-movie',
@@ -9,38 +12,38 @@ import { Movie, User, Users } from 'src/app/type/types';
 })
 export class SeeMovieComponent implements OnInit {
 
+
   seeMovie:Array<Movie>=[];
+  users:Array<User>=[];
   moviePage:Array<Movie>=[];
   pageSize:number=0;
   page:number=1;
+  filteredItems: Array<User> = [];
+  searchTerm: string = '';
+  userSelected = new Map();
+  userIsSelected=false;
 
-  constructor(public movieServie: MoviesService) {
+  constructor(public movieServie: MoviesService,private router: Router,userService: UserService) {
    
-    const user: Users[]=[
-      {
-name:'User1',
-id:1,
-firstname:'John',
-password:'pwd'
-      },
-      {
-        name:'User2',
-        id:1,
-        firstname:'Jane',
-        password:'pwd'
-              }
-    ]
-    movieServie.getMovieToSee(user).subscribe(movie => {
-      console.log(movie)
-      this.seeMovie=movie;
-      this.pageSize= this.seeMovie.length/20
-    this.page=1;
-   console.log(this.seeMovie)
-    this.loadItems()
+
+
+    const token =  sessionStorage.getItem('token');
+    if (!token) {
+       this.router.navigateByUrl('/home');
+       Swal.fire('echec Connexion ', 'veuillez vous connecter', 'error');
+     }else{
+      this.filteredItems = [...this.users];
+   
+ 
+
+    userService.getUser().subscribe(users => {
+      console.log(users)
+      this.users=users;
+   console.log(this.users)
     })
     
    }
-
+  }
   ngOnInit(): void {
   }
 
@@ -63,4 +66,61 @@ password:'pwd'
     this.page = page;
     this.loadItems();
   }
+
+  filterItems(search:any) {
+    if (search.value) {
+      this.filteredItems = this.users.filter(item =>
+        item.name.toLowerCase().includes(search.value.toLowerCase())
+      );
+    }else if(search.length<=20){
+      console.log(search)
+      this.filteredItems = this.users.filter(item =>
+        item.name.toLowerCase().includes(search.toLowerCase())
+      );
+    }else{
+      this.filteredItems = [];
+    }
+   
+  }
+
+  select(name:string) {
+    this.filterItems(name)
+    this.filteredItems.forEach(item=>{
+      if (item.color) {
+        item.color=''
+          this.userSelected.set(item.name,item.color)
+          console.log(this.userSelected.get(item.name))
+      }else{
+        item.color='green'
+        
+        this.userSelected.set(item.name,item.color)
+        console.log(this.userSelected.get(item.name))
+      }
+    }
+      
+      )
+    }
+
+
+
+
+
+    submit(){
+      const userList: string = '?list_users=User1&list_users=User2&list_users=User3'
+      const listUser: Array<string> = []
+      for (let key of this.userSelected.keys()) {
+        listUser.push(key)
+      }
+
+      this.movieServie.getMovieToSee(listUser).subscribe(movie => {
+        console.log(movie)
+        this.seeMovie=movie;
+        this.pageSize= this.seeMovie.length/20
+      this.page=1;
+     console.log(this.seeMovie)
+      this.loadItems()
+      })
+    }
+
+
 }

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { MoviesService } from 'src/app/service/movies.service';
 import { Movie } from 'src/app/type/types';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-top-rated',
@@ -15,8 +17,12 @@ export class TopRatedComponent implements OnInit {
   pageSize:number=0;
   page:number=1;
 
-  constructor(public movieServie: MoviesService) {
-    
+  constructor(public movieServie: MoviesService,private router: Router) {
+    const token =  sessionStorage.getItem('token');
+    if (!token) {
+      this.router.navigateByUrl('/home');
+      Swal.fire('echec Connexion ', 'veuillez vous connecter', 'error');
+    }else{
     movieServie.topRated().subscribe(movie => {
       console.log(movie)
       this.topRated=movie;
@@ -27,6 +33,7 @@ export class TopRatedComponent implements OnInit {
     })
     
    }
+  }
 
   ngOnInit(): void {
   }

@@ -16,7 +16,7 @@ export class EditMovieComponent implements OnInit {
   editForm!:FormGroup;
   disabStud!:boolean;
   disabTeach!:boolean;
-  movie:Movie;
+  movie!:Movie;
   id!: string | null;
   
   role=sessionStorage.getItem("role");
@@ -24,10 +24,17 @@ export class EditMovieComponent implements OnInit {
   
   
   constructor(private movieService: MoviesService,private router: Router,private form: FormBuilder,private route: ActivatedRoute) { 
-    this.id = this.route.snapshot.paramMap.get('movie_id');
-    console.log(this.id)
+    const token =  sessionStorage.getItem('token');
+    if (!token) {
+      this.router.navigateByUrl('/home');
+      Swal.fire('echec Connexion ', 'veuillez vous connecter', 'error');
+    }else{
+      this.id = this.route.snapshot.paramMap.get('movie_id');
+      console.log(this.id)
+     
+      this.movie=this.movieService.movieById(Number(this.id))
+    }
    
-    this.movie=this.movieService.movieById(Number(this.id))
   }
   
   ngOnInit(): void {

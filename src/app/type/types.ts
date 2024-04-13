@@ -11,6 +11,8 @@ export interface User{
     name:string; 
     password:string; 
     role:string;
+    token?: string
+    color?:string
 		 
 }
 
@@ -19,6 +21,7 @@ export interface Users{
   firstname: string,
   name:string; 
   password:string; 
+  token?: string
 
    
 }
