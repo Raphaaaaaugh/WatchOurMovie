@@ -3,3 +3,4 @@ requests
 uvicorn
 mysql-connector-python
 passlib
+pyjwt

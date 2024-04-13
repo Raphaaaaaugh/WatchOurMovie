@@ -3,6 +3,9 @@ from fastapi import FastAPI, HTTPException, Query
 import requests
 import json
 import mysql.connector
+import datetime
+import jwt
+import os
 from pydantic import BaseModel
 from typing import Optional
 from typing import List
@@ -24,6 +27,7 @@ app.add_middleware(
 base_url = "http://nginx-proxy:8081"
 api_key = "5cad553ca21b1db5886498f3843a8264"
 engine_address = "http://engine:8001"
+SECRET_KEY= os.environ.get("SECRET_KEY")
 
 #---------------------------------------------------------------------------------------------
 # Classes
@@ -217,11 +221,12 @@ def login(login_data: Login):
         db_cursor = db_connection.cursor(dictionary=True)
 
         # Récupérer le mot de passe haché depuis la base de données
-        db_cursor.execute('SELECT password FROM users WHERE name = %s', (login_data.name,))
+        db_cursor.execute('SELECT id, name, firstname, password, like_adult, favorite_genres, favorite_runtime, favorite_period FROM users WHERE name = %s', (login_data.name,))
         user = db_cursor.fetchone()
 
         if user and bcrypt.verify(login_data.password, user['password']):
-            return {'message': 'Authentification réussie'}
+            jwt_token = create_jwt_token(login_data.name)
+            return {'message': 'Authentification réussie', 'token': jwt_token, 'user': user}
         else:
             raise HTTPException(status_code=401, detail='Login ou mot de passe incorrect')
 
@@ -258,8 +263,11 @@ def register(user_data: User):
         db_cursor.execute('INSERT INTO users (name, firstname, password, like_adult, favorite_genres, favorite_runtime, favorite_period) VALUES (%s, %s, %s, 0, "", -1, "")',
                            (user_data.name, user_data.firstname, hashed_password))
         db_connection.commit()
+        jwt_token = create_jwt_token(user_data.name)
+        db_cursor.execute('SELECT id, name, firstname, password, like_adult, favorite_genres, favorite_runtime, favorite_period FROM users WHERE name = %s', (user_data.name,))
+        user = db_cursor.fetchone()
 
-        return {'message': 'Utilisateur enregistré avec succès'}
+        return {'message': 'Utilisateur enregistré avec succès', 'token': jwt_token, 'user': user}
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -319,8 +327,25 @@ def user_stats(login_data: Login):
 #---------------------------------------------------------------------------------------------
 # PUT endpoints
 
+#---------------------------------------------------------------------------------------------
+# Other functions
 
-
+# Fonction pour générer un token JWT
+def create_jwt_token(user_name: str) -> str:
+    # Définit la date d'expiration du token
+    expiration_time = datetime.datetime.now() + datetime.timedelta(hours=1)
+    
+    # Créer les données à inclure dans le token
+    payload = {
+        'user_name': user_name,
+        'exp': expiration_time
+    }
+    
+    # Générer le token JWT en signant les données avec la clé secrète
+    token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
+    
+    # Retourner le token JWT
+    return token
 
 
 

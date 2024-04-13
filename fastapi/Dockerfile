@@ -7,6 +7,8 @@ WORKDIR /fastapi
 # Copy the current directory contents into the container at /fastapi
 COPY . /fastapi
 
+ENV SECRET_KEY=EdouardFait22AnsAujourdhuiGGsGrosNoobz
+
 # Install any needed packages specified in requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
