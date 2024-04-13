@@ -134,6 +134,33 @@ async def request_top_rated_films():
     return movies
 
 
+@app.get("/get_users")
+async def get_users():
+    try:
+        # Connexion à la base de données
+        db_config = {
+            'host': 'db',
+            'user': 'api',
+            'password': 'root',
+            'database': 'WOM'
+        }
+        db_connection = mysql.connector.connect(**db_config)
+        db_cursor = db_connection.cursor(dictionary=True)
+
+        # Récupérer le mot de passe haché depuis la base de données
+        db_cursor.execute('SELECT name FROM users')
+        users = db_cursor.fetchall()
+        return users
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+    finally:
+        db_cursor.close()
+        db_connection.close()
+  
+
+
 @app.get("/engine/")
 async def compute_movies(list_users: List[str] = Query(...)):
     # Request must look like http://localhost:8000/engine/?list_users=John&list_users=Jane
@@ -170,36 +197,6 @@ async def compute_movies(list_users: List[str] = Query(...)):
     response = requests.post(url, json=data)
     return json.loads(response.text)
 
-
-# Endpoint pour l'authentification d'un utilisateur
-@app.get('/user_stats')
-def user_stats(login_data: Login):
-    try:
-        # Connexion à la base de données
-        db_config = {
-            'host': 'db',
-            'user': 'api',
-            'password': 'root',
-            'database': 'WOM'
-        }
-        db_connection = mysql.connector.connect(**db_config)
-        db_cursor = db_connection.cursor(dictionary=True)
-
-        # Récupérer le mot de passe haché depuis la base de données
-        db_cursor.execute('SELECT id, name, firstname, password, like_adult, favorite_genres, favorite_runtime, favorite_period FROM users WHERE name = %s', (login_data.name,))
-        user_data = db_cursor.fetchone()
-
-        if user_data and bcrypt.verify(login_data.password, user_data['password']):
-            return user_data
-        else:
-            raise HTTPException(status_code=401, detail='Utilisateur introuvable dans la base. Vérifier les crédits.')
-
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
-
-    finally:
-        db_cursor.close()
-        db_connection.close()
 
 #---------------------------------------------------------------------------------------------
 # POST endpoints
@@ -287,7 +284,37 @@ async def add_film(film: Film):
     config.commit()
     cursor.close()
     config.close()
+    
 
+# Endpoint pour l'authentification d'un utilisateur
+@app.post('/user_stats')
+def user_stats(login_data: Login):
+    try:
+        # Connexion à la base de données
+        db_config = {
+            'host': 'db',
+            'user': 'api',
+            'password': 'root',
+            'database': 'WOM'
+        }
+        db_connection = mysql.connector.connect(**db_config)
+        db_cursor = db_connection.cursor(dictionary=True)
+
+        # Récupérer le mot de passe haché depuis la base de données
+        db_cursor.execute('SELECT id, name, firstname, password, like_adult, favorite_genres, favorite_runtime, favorite_period FROM users WHERE name = %s', (login_data.name,))
+        user_data = db_cursor.fetchone()
+
+        if user_data and bcrypt.verify(login_data.password, user_data['password']):
+            return user_data
+        else:
+            raise HTTPException(status_code=401, detail='Utilisateur introuvable dans la base. Vérifier les crédits.')
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+    finally:
+        db_cursor.close()
+        db_connection.close()
 
 #---------------------------------------------------------------------------------------------
 # PUT endpoints
