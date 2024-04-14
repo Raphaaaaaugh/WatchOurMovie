@@ -179,11 +179,11 @@ async def compute_movies(list_users: List[str] = Query(...)):
     # Get users infos and seen movies
     for name in list_users:
         cursor = config.cursor(dictionary=True)
-        cursor.execute('SELECT * FROM users WHERE firstname=%s', (name,))
+        cursor.execute('SELECT * FROM users WHERE name=%s', (name,))
         res = cursor.fetchall()
         for user in res:
             users.append(user)
-        cursor.execute('SELECT m.* FROM movies m INNER JOIN user_movie um ON m.id = um.movie_id INNER JOIN users u ON um.user_id = u.id WHERE u.firstname =%s', (name,))
+        cursor.execute('SELECT m.* FROM movies m INNER JOIN user_movie um ON m.id = um.movie_id INNER JOIN users u ON um.user_id = u.id WHERE u.name =%s', (name,))
         res = cursor.fetchall()
         for movie in res:
             seen_movies.append(movie)

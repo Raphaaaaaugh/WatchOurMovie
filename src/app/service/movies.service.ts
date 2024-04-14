@@ -81,7 +81,7 @@ export class MoviesService {
   }
 
 
-  getMovieToSee(user: Array<string>): Observable<Movie[]>
+  getMovieToSee(user: string): Observable<Movie[]>
   {
       
       return    this.httpClient.get<Movie[]>(`${apiUrl}/engine/${ user}`);

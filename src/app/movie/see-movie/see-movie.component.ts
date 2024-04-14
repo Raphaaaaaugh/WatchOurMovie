@@ -106,13 +106,17 @@ export class SeeMovieComponent implements OnInit {
 
 
     submit(){
-      const userList: string = '?list_users=User1&list_users=User2&list_users=User3'
-      const listUser: Array<string> = []
+      const userList: string = '?list_users=John&list_users=Jane&list_users=Jax&list_users=Garen&list_users=Darius&list_users=Pornn&list_users=Jean'
+      const listUser: Array<string> = [];
       for (let key of this.userSelected.keys()) {
-        listUser.push(key)
+          listUser.push(`list_users=${encodeURIComponent(key)}`);
       }
+      
+      const queryString = listUser.join('&');
+      const finalString = `?${queryString}`;
 
-      this.movieServie.getMovieToSee(listUser).subscribe(movie => {
+
+      this.movieServie.getMovieToSee(finalString).subscribe(movie => {
         console.log(movie)
         this.seeMovie=movie;
         this.pageSize= this.seeMovie.length/20

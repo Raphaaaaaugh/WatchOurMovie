@@ -48,13 +48,13 @@ CREATE TABLE user_movie (
 -- Insert sample users data
 INSERT INTO users (id, name, firstname, password, like_adult, favorite_genres, favorite_runtime, favorite_period)
 VALUES
-    (1, 'User1', 'John', 'pwd', 0, 'Action', 120, '1900-05-25'),
-    (2, 'User2', 'Jane', 'pwd', 1, 'Sex', 80, '2000-05-25'),
-    (3, 'User1', 'Jax', 'pwd', 0, 'Horror', 120, '1970-05-25'),
-    (4, 'User1', 'Jean', 'pwd', 0, 'Action', 120, '1995-05-25'),
-    (5, 'User1', 'Darius', 'pwd', 0, 'Comedy', 120, '2002-05-25'),
-    (6, 'User1', 'Garen', 'pwd', 0, 'Sex', 120, '2008-05-25'),
-    (7, 'User1', 'Pornn', 'pwd', 0, 'Action', 120, '2050-05-25');
+    (1, 'Patrick', 'John', 'pwd', 0, 'Action', 120, '1900-05-25'),
+    (2, 'Fabien', 'Jane', 'pwd', 1, 'Sex', 80, '2000-05-25'),
+    (3, 'Eddy', 'Jax', 'pwd', 0, 'Horror', 120, '1970-05-25'),
+    (4, 'Remi', 'Jean', 'pwd', 0, 'Action', 120, '1995-05-25'),
+    (5, 'Dujol', 'Darius', 'pwd', 0, 'Comedy', 120, '2002-05-25'),
+    (6, 'Juan', 'Garen', 'pwd', 0, 'Sex', 120, '2008-05-25'),
+    (7, 'James', 'Pornn', 'pwd', 0, 'Action', 120, '2050-05-25');
 
 -- Insert sample movies data
 INSERT INTO movies (title, adult, release_date, genre_ids, runtime, original_title, original_language, backdrop_path, popularity, vote_count, video, vote_average)
