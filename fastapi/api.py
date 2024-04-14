@@ -36,6 +36,7 @@ class User(BaseModel):
     name: str
     firstname: str
     password: str
+    email: str
 
 class Film(BaseModel):
     title: str
@@ -45,7 +46,7 @@ class Film(BaseModel):
     backdrop_path: str
 
 class Login(BaseModel):
-    name: str
+    email: str
     password: str
 
 #---------------------------------------------------------------------------------------------
@@ -209,6 +210,7 @@ async def compute_movies(list_users: List[str] = Query(...)):
 # Endpoint pour l'authentification d'un utilisateur
 @app.post('/login')
 def login(login_data: Login):
+    print(login_data)
     try:
         # Connexion à la base de données
         db_config = {
@@ -221,16 +223,19 @@ def login(login_data: Login):
         db_cursor = db_connection.cursor(dictionary=True)
 
         # Récupérer le mot de passe haché depuis la base de données
-        db_cursor.execute('SELECT id, name, firstname, password, like_adult, favorite_genres, favorite_runtime, favorite_period FROM users WHERE name = %s', (login_data.name,))
+        db_cursor.execute('SELECT id, name, email, firstname, password, like_adult, favorite_genres, favorite_runtime, favorite_period FROM users WHERE email = %s', (login_data.email,))
         user = db_cursor.fetchone()
+        print(user)
+        
 
         if user and bcrypt.verify(login_data.password, user['password']):
-            jwt_token = create_jwt_token(login_data.name)
+            jwt_token = create_jwt_token(login_data.email)
             return {'message': 'Authentification réussie', 'token': jwt_token, 'user': user}
         else:
             raise HTTPException(status_code=401, detail='Login ou mot de passe incorrect')
 
     except Exception as e:
+        print(f"An exception occurred: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
     finally:
@@ -240,6 +245,7 @@ def login(login_data: Login):
 # Endpoint pour l'inscription d'un nouvel utilisateur
 @app.post('/register')
 def register(user_data: User):
+    print(user_data)
     try:
         # Connexion à la base de données
         db_config = {
@@ -251,20 +257,20 @@ def register(user_data: User):
         db_connection = mysql.connector.connect(**db_config)
         db_cursor = db_connection.cursor()
 
-        db_cursor.execute('SELECT name FROM users WHERE name = %s', (user_data.name,))
+        db_cursor.execute('SELECT name FROM users WHERE email = %s', (user_data.email,))
         user = db_cursor.fetchone()
         if user:
-            raise HTTPException(status_code=401, detail='Le nom est déjà utilisé')
+            raise HTTPException(status_code=401, detail='Cet email est déjà utilisée')
 
         # Hashage et salage du mot de passe pour obtenir un hash unique
         hashed_password = bcrypt.hash(user_data.password)
 
         # Insérer les données de l'utilisateur dans la base de données avec le mot de passe haché et salé
-        db_cursor.execute('INSERT INTO users (name, firstname, password, like_adult, favorite_genres, favorite_runtime, favorite_period) VALUES (%s, %s, %s, 0, "", -1, "")',
-                           (user_data.name, user_data.firstname, hashed_password))
+        db_cursor.execute('INSERT INTO users (name, firstname, password, email, like_adult, favorite_genres, favorite_runtime, favorite_period) VALUES (%s, %s, %s, %s,0, "", -1, "")',
+                           (user_data.name, user_data.firstname,hashed_password,user_data.email))
         db_connection.commit()
-        jwt_token = create_jwt_token(user_data.name)
-        db_cursor.execute('SELECT id, name, firstname, password, like_adult, favorite_genres, favorite_runtime, favorite_period FROM users WHERE name = %s', (user_data.name,))
+        jwt_token = create_jwt_token(user_data.email)
+        db_cursor.execute('SELECT id, name, firstname, password, email, like_adult, favorite_genres, favorite_runtime, favorite_period FROM users WHERE email = %s', (user_data.email,))
         user = db_cursor.fetchone()
 
         return {'message': 'Utilisateur enregistré avec succès', 'token': jwt_token, 'user': user}
