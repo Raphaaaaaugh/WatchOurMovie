@@ -15,7 +15,7 @@ export class AuthService {
   constructor(private httpClient: HttpClient) { }
   
 
-  public login(login:{ name: string; password: string; }): Observable<any>
+  public login(login:{ email: string; password: string; }): Observable<any>
   {
 
 
@@ -30,7 +30,8 @@ export class AuthService {
   
   public register(users: Users): Observable<any>
   {
-
+    console.log("aa");
+    console.log(users);
     return this.httpClient.post<any>(`${apiUrl}/register/`,users)
   }
   

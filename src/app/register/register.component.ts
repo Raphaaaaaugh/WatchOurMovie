@@ -61,10 +61,9 @@ onSubmit(): void {
     const userParam:Users = {
       id:0,
       password: this.registerForm.value.password,
-
       firstname: this.registerForm.value.firstname,
-
       name: this.registerForm.value.name,
+      email: this.registerForm.value.email
 
     };
     console.log(userParam);
@@ -75,7 +74,7 @@ onSubmit(): void {
        next: response => {
          
         sessionStorage.setItem('user', JSON.stringify(userParam));
-        const token =response.token
+        const token =response.token;
         if (token) 
           sessionStorage.setItem('token', token);
         
@@ -85,7 +84,7 @@ onSubmit(): void {
         this.router.navigateByUrl('/home');
        },
        error: err => {
-        Swal.fire('echec Enregistrement ', 'Veuillez remplire tous les champs', 'error');
+        Swal.fire('echec Enregistrement ', 'Veuillez remplir tous les champs', 'error');
         console.error('Quelque chose s\'est mal passé :', err)
       },
        complete: () => console.log('L\'histoire est terminée !')

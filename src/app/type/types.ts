@@ -4,14 +4,14 @@ import { HttpHeaders } from "@angular/common/http";
 
 
 export interface User{
-    userId:number
+    userId:number,
     firstname: string,
     email: string, 
-    phone: number;
-    name:string; 
-    password:string; 
-    role:string;
-    token?: string
+    phone: number,
+    name:string,
+    password:string,
+    role:string,
+    token?: string,
     color?:string
 		 
 }
@@ -19,8 +19,9 @@ export interface User{
 export interface Users{
   id:number,
   firstname: string,
-  name:string; 
-  password:string; 
+  name:string,
+  password:string,
+  email:string,
   token?: string
 
    
