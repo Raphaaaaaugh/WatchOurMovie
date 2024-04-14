@@ -4,7 +4,7 @@ You will first need to create an account in the Login Page before you can use an
 
 Once that is done, you should add some movies you have seen to your account at the page designed for that.
 
-Repeat that process several times so that you can have multiple accounts for the recommendation engine.
+Several mock accounts already exist on the database, they are not to be connected with but you can use them to test the recommendation engine as they have their share of seen movies and favorite genres.
 
 To use the recommendation engine :
 - go to the Engine page
