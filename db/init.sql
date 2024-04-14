@@ -45,31 +45,3 @@ CREATE TABLE user_movie (
     FOREIGN KEY (user_id) REFERENCES users(id),
     FOREIGN KEY (movie_id) REFERENCES movies(id)
 );
-
--- Insert sample users data
-INSERT INTO users (id, name, firstname, password, email, like_adult, favorite_genres, favorite_runtime, favorite_period)
-VALUES
-    (1, 'Patrick', 'John', 'pwd', 'pa@foo.com',0, 'Action', 120, '1900-05-25'),
-    (2, 'Fabien', 'Jane', 'pwd', 'fa@foo.com',1, 'Sex', 80, '2000-05-25'),
-    (3, 'Eddy', 'Jax', 'pwd', 'ed@foo.com',0, 'Horror', 120, '1970-05-25'),
-    (4, 'Remi', 'Jean', 'pwd', 're@foo.com',0, 'Action', 120, '1995-05-25'),
-    (5, 'Dujol', 'Darius', 'pwd', 'du@foo.com',0, 'Comedy', 120, '2002-05-25'),
-    (6, 'Juan', 'Garen', 'pwd', 'ju@foo.com', 0,'Sex', 120, '2008-05-25'),
-    (7, 'James', 'Pornn', 'pwd', 'ja@foo.com',0,'Action', 120, '2050-05-25');
-
--- Insert sample movies data
-INSERT INTO movies (title, adult, release_date, genre_ids, runtime, original_title, original_language, backdrop_path, popularity, vote_count, video, vote_average)
-VALUES
-    ('Movie1', 0, '2023-01-01', '1,2,3', '120', 'Movie1', 'English', '/path/to/backdrop1.jpg', 7.5, 1000, 0, 7.2),
-    ('Movie2', 1, '2024-02-15', '4,5,6', '95', 'Movie2', 'French', '/path/to/backdrop2.jpg', 8.2, 1500, 0, 8.5),
-    ('The Godfather', 2, '2024-02-15', '4,5,6', '95', 'Movie2', 'French', '/path/to/backdrop2.jpg', 8.2, 1500, 0, 8.5);
-
--- Insert associations between users and movies
-INSERT INTO user_movie (user_id, movie_id)
-VALUES
-    (1, 1),  -- John (User1) has seen Movie1
-    (2, 1),  -- Jane (User2) has seen Movie1
-    (2, 2),  -- Jane (User2) has seen Movie2
-    (1, 3);
-
--- Genre IDS
