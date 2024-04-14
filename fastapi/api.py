@@ -49,6 +49,10 @@ class Login(BaseModel):
     email: str
     password: str
 
+class Ids(BaseModel):
+    film_id: int
+    user_id: int
+
 #---------------------------------------------------------------------------------------------
 # GET endpoints
 
@@ -300,6 +304,47 @@ async def add_film(film: Film):
     config.close()
     
 
+@app.post("/add_seen_film/")
+async def add_seen_film(ids: Ids):
+    try:
+        # Connexion à la base de données
+        db_config = {
+            'host': 'db',
+            'user': 'api',
+            'password': 'root',
+            'database': 'WOM'
+        }
+        db_connection = mysql.connector.connect(**db_config)
+        db_cursor = db_connection.cursor(dictionary=True)
+
+        # Récupérer le mot de passe haché depuis la base de données
+        db_cursor.execute('SELECT * FROM users WHERE id = %s', (ids.user_id,))
+        user = db_cursor.fetchone()
+        
+        db_cursor.execute('SELECT * FROM movies WHERE id = %s', (ids.film_id,))
+        movie = db_cursor.fetchone()
+        
+        db_cursor.execute('SELECT * FROM user_movie WHERE user_id = %s AND movie_id = %s', (ids.user_id, ids.film_id))
+        user_movie = db_cursor.fetchone()
+        
+        if (not user):
+            raise HTTPException(status_code=401, detail="L'utilisateur n'existe pas.")
+        elif (not movie):
+            raise HTTPException(status_code=402, detail="Le film n'existe pas.")
+        elif (user_movie):
+            raise HTTPException(status_code=403, detail='Le film est déjà dans votre liste de films vus.')
+        else:
+            db_cursor.execute('INSERT INTO user_movie (user_id, movie_id) VALUES (%s, %s)', (ids.user_id, ids.film_id))
+            db_connection.commit()
+            return { 'message': 'Le film a été ajouté à vos films vus'}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+    finally:
+        db_cursor.close()
+        db_connection.close()        
+
+
 # Endpoint pour l'authentification d'un utilisateur
 @app.post('/user_stats')
 def user_stats(login_data: Login):
@@ -314,21 +359,27 @@ def user_stats(login_data: Login):
         db_connection = mysql.connector.connect(**db_config)
         db_cursor = db_connection.cursor(dictionary=True)
 
-        # Récupérer le mot de passe haché depuis la base de données
-        db_cursor.execute('SELECT id, name, firstname, password, like_adult, favorite_genres, favorite_runtime, favorite_period FROM users WHERE name = %s', (login_data.name,))
-        user_data = db_cursor.fetchone()
+        # Récupérer les informations de l'utilisateur depuis la base de données
+        db_cursor.execute('SELECT id, name, email, firstname, password, like_adult, favorite_genres, favorite_runtime, favorite_period FROM users WHERE email = %s', (login_data.email,))
+        user = db_cursor.fetchone()
 
-        if user_data and bcrypt.verify(login_data.password, user_data['password']):
-            return user_data
+        if user and bcrypt.verify(login_data.password, user['password']):
+            # Si l'utilisateur existe et le mot de passe est correct, renvoyer les informations de l'utilisateur
+            del user["password"]
+            return user
         else:
-            raise HTTPException(status_code=401, detail='Utilisateur introuvable dans la base. Vérifier les crédits.')
+            # Sinon, renvoyer une erreur d'authentification
+            raise HTTPException(status_code=401, detail='Utilisateur introuvable dans la base de données ou mot de passe incorrect.')
 
     except Exception as e:
+        # En cas d'erreur, renvoyer une erreur serveur interne
         raise HTTPException(status_code=500, detail=str(e))
 
     finally:
+        # Fermer le curseur et la connexion à la base de données
         db_cursor.close()
         db_connection.close()
+
 
 #---------------------------------------------------------------------------------------------
 # PUT endpoints
@@ -337,13 +388,13 @@ def user_stats(login_data: Login):
 # Other functions
 
 # Fonction pour générer un token JWT
-def create_jwt_token(user_name: str) -> str:
+def create_jwt_token(user_email: str) -> str:
     # Définit la date d'expiration du token
     expiration_time = datetime.datetime.now() + datetime.timedelta(hours=1)
     
     # Créer les données à inclure dans le token
     payload = {
-        'user_name': user_name,
+        'user_email': user_email,
         'exp': expiration_time
     }
     
