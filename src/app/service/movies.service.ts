@@ -44,7 +44,7 @@ export class MoviesService {
 
      { 
       
-      next: movies => {
+      next: (movies: Movie) => {
  
         movie.title=movies.title
        
@@ -60,7 +60,7 @@ export class MoviesService {
         movie.runtime = movies.runtime
 
       },
-      error: err => console.error('Quelque chose s\'est mal passé :', err),
+      error: (err:any) => console.error('Quelque chose s\'est mal passé :', err),
       complete: () => console.log('L\'histoire est terminée !')
      
    }
@@ -99,13 +99,13 @@ export class MoviesService {
 
      { 
       
-      next: movie => {
+      next: (movie: Movie[]) => {
     
         movie.forEach((movie) => {
           movies.push(movie)
         })
        },
-      error: err => console.error('Quelque chose s\'est mal passé :', err),
+      error: (err:any) => console.error('Quelque chose s\'est mal passé :', err),
       complete: () => console.log('L\'histoire est terminée !')
      
    }
@@ -126,8 +126,8 @@ export class MoviesService {
   
      { 
       
-      next: movies => movie=movies,
-      error: err => console.error('Quelque chose s\'est mal passé :', err),
+      next: (movies: Movie) => movie=movies,
+      error: (err:any) => console.error('Quelque chose s\'est mal passé :', err),
       complete: () => console.log('L\'histoire est terminée !')
      
    }

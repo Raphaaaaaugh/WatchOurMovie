@@ -27,6 +27,7 @@ export class TopRatedComponent implements OnInit {
       console.log(movie)
       this.topRated=movie;
       this.pageSize= this.topRated.length/20
+      console.log(this.pageSize)
     this.page=1;
    console.log(this.topRated)
     this.loadItems()

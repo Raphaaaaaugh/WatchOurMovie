@@ -84,6 +84,14 @@ export class SeeMovieComponent implements OnInit {
   }
 
   select(name:string) {
+   
+    this.userIsSelected=false
+    this.filteredItems.forEach(item=>{
+      if (item.color=='green') {
+        this.userIsSelected=true
+      }
+    
+    })
     this.filterItems(name)
     this.filteredItems.forEach(item=>{
       if (item.color) {
@@ -116,7 +124,7 @@ export class SeeMovieComponent implements OnInit {
       const finalString = `?${queryString}`;
 
 
-      this.movieServie.getMovieToSee(finalString).subscribe(movie => {
+      this.movieServie.getMovieToSee(finalString).subscribe((movie: Movie[]) => {
         console.log(movie)
         this.seeMovie=movie;
         this.pageSize= this.seeMovie.length/20
