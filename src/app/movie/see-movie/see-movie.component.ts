@@ -97,12 +97,12 @@ export class SeeMovieComponent implements OnInit {
     this.filteredItems.forEach(item=>{
       if (item.color) {
         item.color=''
-          this.userSelected.set(item.id,item.color)
+          this.userSelected.set(item.email,item.color)
           console.log(this.userSelected.get(item.id))
       }else{
         item.color='green'
         
-        this.userSelected.set(item.id,item.color)
+        this.userSelected.set(item.email,item.color)
         console.log(this.userSelected.get(item.id))
       }
     }
