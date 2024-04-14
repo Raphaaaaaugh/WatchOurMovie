@@ -51,6 +51,7 @@ export class TopRatedComponent implements OnInit {
 
     for (let index = startIndex; index < endIndex-1; index++) {
       this.moviePage.push(this.topRated[index]);
+      console.log(this.topRated[index], "film to add")
       this.movieServie.addMovie(this.topRated[index]);
       
     }
