@@ -22,10 +22,10 @@
         <h3> Les utilisateurs selectionnés</h3>
         <div class="row">
        
-            <div class="col-md-2"  *ngFor="let key of  userSelected.keys()"  [ngStyle]="{'background-color': userSelected.get(key)}" (click)="select(key)">
+            <div class="col-md-2"  *ngFor="let key of  userSelected.keys()"  [ngStyle]="{'background-color': userSelected.get(key)[0]}" (click)="select(key)">
                 <ul *ngIf="userSelected.get(key)">
-                <li >{{ key}}</li>
-            </ul>
+                    <li >{{ userSelected.get(key)[1] }}</li>
+                </ul>
             </div>
         
         

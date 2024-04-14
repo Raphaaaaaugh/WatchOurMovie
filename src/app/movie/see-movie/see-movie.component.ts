@@ -97,12 +97,12 @@ export class SeeMovieComponent implements OnInit {
     this.filteredItems.forEach(item=>{
       if (item.color) {
         item.color=''
-          this.userSelected.set(item.email,item.color)
+          this.userSelected.set(item.email,[item.color,item.email])
           console.log(this.userSelected.get(item.id))
       }else{
         item.color='green'
         
-        this.userSelected.set(item.email,item.color)
+        this.userSelected.set(item.email,[item.color,item.email])
         console.log(this.userSelected.get(item.id))
       }
     }
@@ -115,7 +115,6 @@ export class SeeMovieComponent implements OnInit {
 
 
     submit(){
-      const userList: string = '?list_users=John&list_users=Jane&list_users=Jax&list_users=Garen&list_users=Darius&list_users=Pornn&list_users=Jean'
       const listUser: Array<string> = [];
       for (let key of this.userSelected.keys()) {
           listUser.push(`list_users=${encodeURIComponent(key)}`);
@@ -129,9 +128,9 @@ export class SeeMovieComponent implements OnInit {
         console.log(movie)
         this.seeMovie=movie;
         this.pageSize= this.seeMovie.length/20
-      this.page=1;
-     console.log(this.seeMovie)
-      this.loadItems()
+        this.page=1;
+        console.log(this.seeMovie)
+        this.loadItems()
       })
     }
 
