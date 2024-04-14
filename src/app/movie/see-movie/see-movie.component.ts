@@ -84,6 +84,14 @@ export class SeeMovieComponent implements OnInit {
   }
 
   select(name:string) {
+   
+    this.userIsSelected=false
+    this.filteredItems.forEach(item=>{
+      if (item.color=='green') {
+        this.userIsSelected=true
+      }
+    
+    })
     this.filterItems(name)
     this.filteredItems.forEach(item=>{
       if (item.color) {
