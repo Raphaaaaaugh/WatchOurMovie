@@ -32,7 +32,7 @@ export class MoviesService {
   {
 
 
-     this.httpClient.post<any[]>(`${apiUrl}/add_seen_film/`,ids).subscribe(
+     this.httpClient.post<any>(`${apiUrl}/add_seen_film/`,ids).subscribe(
 
     { 
      
