@@ -24,8 +24,10 @@ export class GenreMovieComponent implements OnInit {
       this.router.navigateByUrl('/home');
       Swal.fire('echec Connexion ', 'veuillez vous connecter', 'error');
     }else{
+      
     this.id = this.route.snapshot.paramMap.get('genre_id');
     console.log(this.id)
+    this.router.navigateByUrl('/movies/movie_genre/'+this.id);
     this.movieServie.movieGenre(Number(this.id)).subscribe(movie => {
       movie.forEach(mov=>{
         this.movieGenre.push(this.movieServie.movieById(mov));
@@ -43,6 +45,8 @@ export class GenreMovieComponent implements OnInit {
   ngOnInit(): void {
   }
 
+
+ 
 
   async loadItems() {
    

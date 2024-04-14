@@ -56,4 +56,8 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  reload(){
+    window.location.reload();
+  }
+
 }

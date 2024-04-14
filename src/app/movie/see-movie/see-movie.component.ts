@@ -22,6 +22,7 @@ export class SeeMovieComponent implements OnInit {
   searchTerm: string = '';
   userSelected = new Map();
   userIsSelected=false;
+  
 
   constructor(public movieServie: MoviesService,private router: Router,userService: UserService) {
    

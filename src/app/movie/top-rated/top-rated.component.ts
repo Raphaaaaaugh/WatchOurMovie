@@ -26,7 +26,7 @@ export class TopRatedComponent implements OnInit {
     movieServie.topRated().subscribe(movie => {
       console.log(movie)
       this.topRated=movie;
-      this.pageSize= this.topRated.length/20
+      this.pageSize= this.topRated.length/50
       console.log(this.pageSize)
     this.page=1;
    console.log(this.topRated)
