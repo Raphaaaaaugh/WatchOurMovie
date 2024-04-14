@@ -51,7 +51,7 @@ onSubmit(): void {
     const userParams:User = {
       email: this.registerForm.value.email, 
       password: this.registerForm.value.password,
-      userId: 0,
+      id: 0,
       firstname: this.registerForm.value.firstname,
       phone: this.registerForm.value.phone,
       name: this.registerForm.value.name,

@@ -71,12 +71,12 @@ export class SeeMovieComponent implements OnInit {
   filterItems(search:any) {
     if (search.value) {
       this.filteredItems = this.users.filter(item =>
-        item.name.toLowerCase().includes(search.value.toLowerCase())
+        item.email.toLowerCase().includes(search.value.toLowerCase())
       );
     }else if(search.length<=20){
       console.log(search)
       this.filteredItems = this.users.filter(item =>
-        item.name.toLowerCase().includes(search.toLowerCase())
+        item.email.toLowerCase().includes(search.toLowerCase())
       );
     }else{
       this.filteredItems = [];
@@ -97,13 +97,13 @@ export class SeeMovieComponent implements OnInit {
     this.filteredItems.forEach(item=>{
       if (item.color) {
         item.color=''
-          this.userSelected.set(item.name,item.color)
-          console.log(this.userSelected.get(item.name))
+          this.userSelected.set(item.id,item.color)
+          console.log(this.userSelected.get(item.id))
       }else{
         item.color='green'
         
-        this.userSelected.set(item.name,item.color)
-        console.log(this.userSelected.get(item.name))
+        this.userSelected.set(item.id,item.color)
+        console.log(this.userSelected.get(item.id))
       }
     }
       

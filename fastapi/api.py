@@ -153,7 +153,7 @@ async def get_users():
         db_cursor = db_connection.cursor(dictionary=True)
 
         # Récupérer le mot de passe haché depuis la base de données
-        db_cursor.execute('SELECT name FROM users')
+        db_cursor.execute('SELECT email, id FROM users')
         users = db_cursor.fetchall()
         return users
 
@@ -168,7 +168,7 @@ async def get_users():
 
 @app.get("/engine/")
 async def compute_movies(list_users: List[str] = Query(...)):
-    # Request must look like http://localhost:8000/engine/?list_users=John&list_users=Jane
+    # Request must look like http://localhost:8000/engine/?list_users=id1&list_users=id2
     config = mysql.connector.connect(
         host="db",
         user="api",
@@ -178,13 +178,13 @@ async def compute_movies(list_users: List[str] = Query(...)):
     users = []
     seen_movies = []
     # Get users infos and seen movies
-    for name in list_users:
+    for id in list_users:
         cursor = config.cursor(dictionary=True)
-        cursor.execute('SELECT * FROM users WHERE name=%s', (name,))
+        cursor.execute('SELECT * FROM users WHERE id=%s', (id,))
         res = cursor.fetchall()
         for user in res:
             users.append(user)
-        cursor.execute('SELECT m.* FROM movies m INNER JOIN user_movie um ON m.id = um.movie_id INNER JOIN users u ON um.user_id = u.id WHERE u.name =%s', (name,))
+        cursor.execute('SELECT m.* FROM movies m INNER JOIN user_movie um ON m.id = um.movie_id INNER JOIN users u ON um.user_id = u.id WHERE u.id =%s', (id,))
         res = cursor.fetchall()
         for movie in res:
             seen_movies.append(movie)

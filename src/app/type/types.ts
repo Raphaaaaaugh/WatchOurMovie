@@ -4,7 +4,7 @@ import { HttpHeaders } from "@angular/common/http";
 
 
 export interface User{
-    userId:number,
+    id:number,
     firstname: string,
     email: string, 
     phone: number,

@@ -30,7 +30,7 @@ export class UserService {
   {
     
     let user:User={
-      userId: 0,
+      id: 0,
       firstname: '',
       email: '',
       phone: 0,
