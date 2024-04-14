@@ -51,7 +51,7 @@ services:
     build: 
       context: ./
       dockerfile: Dockerfile
-    image: node
+    image: front
     ports:
       - "81:80"
     networks:
