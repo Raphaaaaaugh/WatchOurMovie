@@ -124,7 +124,7 @@ export class SeeMovieComponent implements OnInit {
       const finalString = `?${queryString}`;
 
 
-      this.movieServie.getMovieToSee(finalString).subscribe((movie: Movie[]) => {
+      this.movieServie.getMovieToSee(finalString).subscribe((movie: any) => {
         console.log(movie)
         this.seeMovie=movie;
         this.pageSize= this.seeMovie.length/20
