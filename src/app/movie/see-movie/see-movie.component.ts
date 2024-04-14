@@ -40,7 +40,7 @@ export class SeeMovieComponent implements OnInit {
     userService.getUser().subscribe(users => {
       console.log(users)
       this.users=users;
-   console.log(this.users)
+      console.log(this.users)
     })
     
    }

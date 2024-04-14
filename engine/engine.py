@@ -106,6 +106,10 @@ def threeDimensionalAnalysis(movies_data, top_genres, perfect_period, perfect_ru
         overall_grade = (runtime_grade + period_grade + genre_grade)/3
         graded_film = {
             'name': movie['title'],
+            'release_date': movie['release_date'],
+            'original_title': movie['original_title'],
+            'original_language': movie['original_language'],
+            'backdrop_path': movie['backdrop_path'],
             'grade': overall_grade
         }
         final_list.append(graded_film)

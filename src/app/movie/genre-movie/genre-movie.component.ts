@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { MoviesService } from 'src/app/service/movies.service';
 import { Movie } from 'src/app/type/types';
 import Swal from 'sweetalert2';
@@ -23,11 +23,22 @@ export class GenreMovieComponent implements OnInit {
     if (!token) {
       this.router.navigateByUrl('/home');
       Swal.fire('echec Connexion ', 'veuillez vous connecter', 'error');
-    }else{
-      
+    }
+}
+
+
+
+  ngOnInit(): void {
+
+         
     this.id = this.route.snapshot.paramMap.get('genre_id');
     console.log(this.id)
-    this.router.navigateByUrl('/movies/movie_genre/'+this.id);
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        window.location.reload();
+      }
+    });
+    
     this.movieServie.movieGenre(Number(this.id)).subscribe(movie => {
       movie.forEach(mov=>{
         this.movieGenre.push(this.movieServie.movieById(mov));
@@ -38,19 +49,13 @@ export class GenreMovieComponent implements OnInit {
     this.loadItems()
     }) 
   }
-}
-
-
-
-  ngOnInit(): void {
-  }
 
 
  
 
   async loadItems() {
    
-
+   
     const startIndex = (this.page - 1) * this.pageSize;
     const endIndex = startIndex + this.pageSize;
 

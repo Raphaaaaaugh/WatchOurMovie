@@ -3,7 +3,10 @@
 
     <div class="row">
        
+
             <div class="col-md-2"  *ngFor="let item of filteredItems" [ngStyle]="{'background-color': item.color}" (click)="select(item.name)">
+
+
                 <ul>
                 <li >{{ item.name }}</li>
             </ul>
@@ -15,7 +18,7 @@
 
 
     <section *ngIf="userSelected.size>=1 && !userIsSelected">
-        <h3> les utilisateurs selectionnés</h3>
+        <h3> Les utilisateurs selectionnés</h3>
         <div class="row">
        
             <div class="col-md-2"  *ngFor="let key of  userSelected.keys()"  [ngStyle]="{'background-color': userSelected.get(key)}" (click)="select(key)">
