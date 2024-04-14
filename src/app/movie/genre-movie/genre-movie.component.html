@@ -12,7 +12,7 @@
           <p> original language: {{movie.original_language}} </p> 
           <p> release date: {{movie.release_date}} </p> 
       <button type="button" class="btn btn-primary button" [routerLink]="['/movie/',movie.id]">détails</button>
-      
+      <button type="button" class="btn btn-danger button" (click)="seenMovie(movie.id)">déjà vu</button>
         </div>
       </div>
 

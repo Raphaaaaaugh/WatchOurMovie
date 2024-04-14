@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {  Movie,User,Users,apiUrl,httpOptions } from 'src/app/type/types';
 import { Observable } from 'rxjs';
+import Swal from 'sweetalert2';
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +23,30 @@ export class MoviesService {
 
 
    return  this.httpClient.get<any[]>(`${apiUrl}/movie_genre/${genre_id}`)
+
+
+  }
+
+
+  public seenMovie(ids:{user_id:number, film_id:number})
+  {
+
+
+     this.httpClient.post<any[]>(`${apiUrl}/add_seen_film/`,ids).subscribe(
+
+    { 
+     
+     next: message => {
+      Swal.fire('Enregistrement réussie', 'Le film a été ajouté à vos films vus', 'success');
+      console.log(message)},
+     error: (err:any) => {
+      Swal.fire('Echec Enregistrement', 'Le film est déjà dans votre liste de films vus.', 'error');
+      console.error('Quelque chose s\'est mal passé :', err)},
+     complete: () => console.log('L\'histoire est terminée !')
+    
+  }
+      
+   );
 
 
   }

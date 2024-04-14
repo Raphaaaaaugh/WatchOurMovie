@@ -73,7 +73,18 @@ onSubmit(): void {
        
        next: response => {
          
-        sessionStorage.setItem('user', JSON.stringify(userParam));
+        const users:User ={
+          id: 0,
+          password: this.registerForm.value.password,
+          firstname: this.registerForm.value.firstname,
+          name: this.registerForm.value.name,
+          email: this.registerForm.value.email,
+          phone: 0,
+        
+          role: ''
+        }
+        users.id=response.user.id
+        sessionStorage.setItem('user', JSON.stringify(users));
         const token =response.token;
         if (token) 
           sessionStorage.setItem('token', token);

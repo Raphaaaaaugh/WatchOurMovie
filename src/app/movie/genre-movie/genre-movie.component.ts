@@ -72,4 +72,13 @@ export class GenreMovieComponent implements OnInit {
     this.loadItems();
   }
 
+
+  seenMovie(id:number){
+    const user=sessionStorage.getItem('user');
+    const userObject=user ? JSON.parse(user) :""
+    console.log(userObject)
+    if (userObject)
+        this.movieServie.seenMovie({film_id:id, user_id:userObject.id})
+  }
+
 }

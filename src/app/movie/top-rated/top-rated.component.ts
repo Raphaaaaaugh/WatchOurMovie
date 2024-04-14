@@ -58,4 +58,14 @@ export class TopRatedComponent implements OnInit {
     this.page = page;
     this.loadItems();
   }
+
+  seenMovie(id:number){
+    const user=sessionStorage.getItem('user');
+    const userObject=user ? JSON.parse(user) :""
+    console.log(userObject)
+    console.log({film_id:id, user_id:userObject.id})
+    if (userObject)
+        this.movieServie.seenMovie({film_id:id, user_id:userObject.id})
+  }
+
 }

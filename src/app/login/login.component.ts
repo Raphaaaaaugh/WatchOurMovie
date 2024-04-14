@@ -3,6 +3,7 @@ import { AuthService } from '../service/auth.service';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { User } from '../type/types';
 
 @Component({
   selector: 'app-login',
@@ -34,19 +35,35 @@ loginForm!:FormGroup;
    
     const loginParams = { email: this.loginForm.value.email, password: this.loginForm.value.password};
     console.log(loginParams);
+   
     this.userService.login(loginParams).subscribe(
 
       { 
        
        next: response => {
+        const users:User ={
+          id: 0,
+          firstname: '',
+          email: this.loginForm.value.email, 
+          password: this.loginForm.value.password,
+          phone: 0,
+          name: '',
+        
+          role: ''
+        }
+       
          
-        sessionStorage.setItem('user', JSON.stringify(loginParams));
+        
+            users.id=response.user.id
+        sessionStorage.setItem('user', JSON.stringify(users));
         const token =response.token
         if (token) 
           sessionStorage.setItem('token', token);
+        const user=sessionStorage.getItem('user');
         
-          Swal.fire('Connexion réussie', 'Vous êtes à présent connecté', 'success');
-          this.router.navigateByUrl('/home');
+        console.log(user)
+        Swal.fire('Connexion réussie', 'Vous êtes à présent connecté', 'success');
+        this.router.navigateByUrl('/home');
        },
        error: err => {
         Swal.fire('echec Connexion ', 'password ou password incorrect', 'error');
