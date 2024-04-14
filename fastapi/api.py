@@ -153,7 +153,7 @@ async def get_users():
         db_cursor = db_connection.cursor(dictionary=True)
 
         # Récupérer le mot de passe haché depuis la base de données
-        db_cursor.execute('SELECT email FROM users')
+        db_cursor.execute('SELECT name FROM users')
         users = db_cursor.fetchall()
         return users
 
