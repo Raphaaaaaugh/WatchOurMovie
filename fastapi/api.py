@@ -286,7 +286,6 @@ def register(user_data: User):
         db_cursor.close()
         db_connection.close()
 
-
 @app.post("/add_film/")
 async def add_film(film: Film):
     if not film.title:
@@ -298,8 +297,10 @@ async def add_film(film: Film):
         database="WOM"
     )
     cursor = config.cursor(dictionary=True)
-    cursor.execute('INSERT INTO movies (title, release_date, original_language, original_title, backdrop_path) VALUES (%s, %s, %s, %s, %s)', (film.title, film.release_date, film.original_language, film.original_title, film.backdrop_path))
-    config.commit()
+    film = cursor.execute('SELECT * FROM movies WHERE title = %s', (film.title,))
+    if (not film):
+        cursor.execute('INSERT INTO movies (title, release_date, original_language, original_title, backdrop_path) VALUES (%s, %s, %s, %s, %s)', (film.title, film.release_date, film.original_language, film.original_title, film.backdrop_path))
+        config.commit()
     cursor.close()
     config.close()
     

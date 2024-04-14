@@ -151,7 +151,8 @@ export class MoviesService {
   
      { 
       
-      next: (movies: Movie) => movie=movies,
+      next: (movies: Movie) => {movie=movies
+      console.log(movie,"gg")},
       error: (err:any) => console.error('Quelque chose s\'est mal passé :', err),
       complete: () => console.log('L\'histoire est terminée !')
      

@@ -25,7 +25,9 @@ export class TopRatedComponent implements OnInit {
     }else{
     movieServie.topRated().subscribe(movie => {
       console.log(movie)
+     
       this.topRated=movie;
+    
       this.pageSize= this.topRated.length/50
       console.log(this.pageSize)
     this.page=1;
@@ -49,6 +51,7 @@ export class TopRatedComponent implements OnInit {
 
     for (let index = startIndex; index < endIndex-1; index++) {
       this.moviePage.push(this.topRated[index]);
+      this.movieServie.addMovie(this.topRated[index]);
       
     }
 
