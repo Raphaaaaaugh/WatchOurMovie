@@ -297,8 +297,8 @@ async def add_film(film: Film):
         database="WOM"
     )
     cursor = config.cursor(dictionary=True)
-    film = cursor.execute('SELECT * FROM movies WHERE title = %s', (film.title,))
-    if (not film):
+    film1 = cursor.execute('SELECT * FROM movies WHERE title = %s', (film.title,))
+    if (not film1):
         cursor.execute('INSERT INTO movies (title, release_date, original_language, original_title, backdrop_path) VALUES (%s, %s, %s, %s, %s)', (film.title, film.release_date, film.original_language, film.original_title, film.backdrop_path))
         config.commit()
     cursor.close()
